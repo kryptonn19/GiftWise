@@ -6,6 +6,7 @@ from backend.app.db.session import engine, Base
 from backend.app.api.lookups import router as lookups_router
 from backend.app.api.gifts import router as gifts_router
 from backend.app.api.experiences import router as experiences_router
+from backend.app.api.recommendations import router as recommendations_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -36,6 +37,7 @@ app.add_middleware(
 app.include_router(lookups_router, prefix=settings.API_V1_STR)
 app.include_router(gifts_router, prefix=settings.API_V1_STR)
 app.include_router(experiences_router, prefix=settings.API_V1_STR)
+app.include_router(recommendations_router, prefix=settings.API_V1_STR)
 
 @app.get("/health", tags=["health"])
 def health_check():
