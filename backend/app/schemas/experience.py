@@ -14,6 +14,15 @@ class FailureReasonResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+class ReviewNLPInsightResponse(BaseModel):
+    id: str
+    sentiment_score: Optional[float] = None
+    extracted_themes: Optional[List[str]] = []
+    extracted_positive_reasons: Optional[List[str]] = []
+    extracted_negative_reasons: Optional[List[str]] = []
+
+    model_config = ConfigDict(from_attributes=True)
+
 class RecipientProfileCreate(BaseModel):
     age_range: str
     interest_ids: List[int] = []
@@ -60,5 +69,6 @@ class ExperienceResponse(BaseModel):
     is_synthetic: bool
     created_at: datetime
     failure_reasons: List[FailureReasonResponse] = []
+    nlp_insight: Optional[ReviewNLPInsightResponse] = None
 
     model_config = ConfigDict(from_attributes=True)

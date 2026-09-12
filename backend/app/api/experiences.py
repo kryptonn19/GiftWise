@@ -7,8 +7,9 @@ from backend.app.models.db_models import (
     Occasion, Relationship, Interest, Personality
 )
 from backend.app.schemas.experience import (
-    ExperienceCreate, ExperienceResponse, RecipientProfileResponse, FailureReasonResponse
+    ExperienceCreate, ExperienceResponse, RecipientProfileResponse, FailureReasonResponse, ReviewNLPInsightResponse
 )
+from backend.app.nlp.pipeline import process_experience_nlp
 
 router = APIRouter(prefix="/experiences", tags=["experiences"])
 
@@ -31,6 +32,16 @@ def _format_experience_response(exp: GiftingExperience) -> ExperienceResponse:
         ) for fr in exp.failure_reasons
     ]
 
+    nlp_resp = None
+    if exp.nlp_insight:
+        nlp_resp = ReviewNLPInsightResponse(
+            id=exp.nlp_insight.id,
+            sentiment_score=float(exp.nlp_insight.sentiment_score) if exp.nlp_insight.sentiment_score is not None else None,
+            extracted_themes=exp.nlp_insight.extracted_themes or [],
+            extracted_positive_reasons=exp.nlp_insight.extracted_positive_reasons or [],
+            extracted_negative_reasons=exp.nlp_insight.extracted_negative_reasons or []
+        )
+
     return ExperienceResponse(
         id=exp.id,
         user_id=exp.user_id,
@@ -50,7 +61,8 @@ def _format_experience_response(exp: GiftingExperience) -> ExperienceResponse:
         reaction_text=exp.reaction_text,
         is_synthetic=exp.is_synthetic,
         created_at=exp.created_at,
-        failure_reasons=failure_reasons_resp
+        failure_reasons=failure_reasons_resp,
+        nlp_insight=nlp_resp
     )
 
 @router.get("", response_model=List[ExperienceResponse])
@@ -81,7 +93,6 @@ def list_experiences(
 
 @router.post("", response_model=ExperienceResponse, status_code=201)
 def create_experience(exp_in: ExperienceCreate, db: Session = Depends(get_db)):
-    # 1. Verify gift, occasion, relationship exist
     gift = db.query(Gift).filter(Gift.id == exp_in.gift_id).first()
     if not gift:
         raise HTTPException(status_code=404, detail="Gift not found")
@@ -94,7 +105,6 @@ def create_experience(exp_in: ExperienceCreate, db: Session = Depends(get_db)):
     if not relationship_obj:
         raise HTTPException(status_code=404, detail="Relationship not found")
 
-    # 2. Create RecipientProfile
     profile = RecipientProfile(age_range=exp_in.recipient_profile.age_range)
     if exp_in.recipient_profile.interest_ids:
         interests = db.query(Interest).filter(Interest.id.in_(exp_in.recipient_profile.interest_ids)).all()
@@ -107,7 +117,6 @@ def create_experience(exp_in: ExperienceCreate, db: Session = Depends(get_db)):
     db.add(profile)
     db.flush()
 
-    # 3. Create GiftingExperience (user logged -> is_synthetic = False by default)
     exp = GiftingExperience(
         gift_id=gift.id,
         occasion_id=occasion.id,
@@ -124,7 +133,6 @@ def create_experience(exp_in: ExperienceCreate, db: Session = Depends(get_db)):
     db.add(exp)
     db.flush()
 
-    # 4. Create Failure Reasons if provided
     if exp_in.failure_reasons:
         for fr_in in exp_in.failure_reasons:
             fr = FailureReason(
@@ -135,6 +143,10 @@ def create_experience(exp_in: ExperienceCreate, db: Session = Depends(get_db)):
             db.add(fr)
 
     db.commit()
+    
+    # Process NLP extraction automatically
+    process_experience_nlp(db, exp.id)
+
     db.refresh(exp)
     return _format_experience_response(exp)
 

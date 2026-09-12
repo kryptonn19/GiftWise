@@ -4,10 +4,13 @@ from datetime import datetime
 from typing import List
 from sqlalchemy import (
     Column, String, Text, Integer, Float, Numeric, Boolean, 
-    DateTime, ForeignKey, Enum as SQLEnum, Table, JSON
+    DateTime, ForeignKey, Enum as SQLEnum, Table, JSON, ARRAY
 )
 from sqlalchemy.orm import relationship as sqla_relationship
 from backend.app.db.session import Base
+
+# Cross-DB type for Text Array (PostgreSQL TEXT[] with SQLite JSON fallback)
+TextArrayType = ARRAY(Text).with_variant(JSON, "sqlite")
 
 # ENUMS
 class FailureReasonCode(str, enum.Enum):
@@ -162,9 +165,9 @@ class ReviewNLPInsight(Base):
     id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     gifting_experience_id = Column(String(36), ForeignKey("gifting_experiences.id", ondelete="CASCADE"), unique=True, nullable=False)
     sentiment_score = Column(Float, nullable=True)
-    extracted_themes = Column(JSON, nullable=True)
-    extracted_positive_reasons = Column(JSON, nullable=True)
-    extracted_negative_reasons = Column(JSON, nullable=True)
+    extracted_themes = Column(TextArrayType, nullable=True)
+    extracted_positive_reasons = Column(TextArrayType, nullable=True)
+    extracted_negative_reasons = Column(TextArrayType, nullable=True)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)
 
     gifting_experience = sqla_relationship("GiftingExperience", back_populates="nlp_insight")
