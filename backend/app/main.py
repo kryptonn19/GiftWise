@@ -7,11 +7,19 @@ from backend.app.api.lookups import router as lookups_router
 from backend.app.api.gifts import router as gifts_router
 from backend.app.api.experiences import router as experiences_router
 from backend.app.api.recommendations import router as recommendations_router
+from backend.app.api.analytics import router as analytics_router
+from backend.app.db.analytics_db import initialize_analytics_views
+from backend.app.db.session import SessionLocal
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure database tables exist on startup
     Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    try:
+        initialize_analytics_views(db)
+    finally:
+        db.close()
     yield
 
 # Initialize FastAPI app
@@ -38,6 +46,7 @@ app.include_router(lookups_router, prefix=settings.API_V1_STR)
 app.include_router(gifts_router, prefix=settings.API_V1_STR)
 app.include_router(experiences_router, prefix=settings.API_V1_STR)
 app.include_router(recommendations_router, prefix=settings.API_V1_STR)
+app.include_router(analytics_router, prefix=settings.API_V1_STR)
 
 @app.get("/health", tags=["health"])
 def health_check():

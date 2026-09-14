@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 from typing import List, Optional
+from uuid import UUID
 from datetime import datetime
 from backend.app.models.db_models import FailureReasonCode
 
@@ -12,6 +13,13 @@ class FailureReasonResponse(BaseModel):
     reason_code: FailureReasonCode
     free_text: Optional[str] = None
 
+    @field_validator("id", mode="before")
+    @classmethod
+    def convert_uuid_to_str(cls, v):
+        if isinstance(v, UUID):
+            return str(v)
+        return v
+
     model_config = ConfigDict(from_attributes=True)
 
 class ReviewNLPInsightResponse(BaseModel):
@@ -20,6 +28,13 @@ class ReviewNLPInsightResponse(BaseModel):
     extracted_themes: Optional[List[str]] = []
     extracted_positive_reasons: Optional[List[str]] = []
     extracted_negative_reasons: Optional[List[str]] = []
+
+    @field_validator("id", mode="before")
+    @classmethod
+    def convert_uuid_to_str(cls, v):
+        if isinstance(v, UUID):
+            return str(v)
+        return v
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -33,6 +48,13 @@ class RecipientProfileResponse(BaseModel):
     age_range: str
     interests: List[str] = []
     personalities: List[str] = []
+
+    @field_validator("id", mode="before")
+    @classmethod
+    def convert_uuid_to_str(cls, v):
+        if isinstance(v, UUID):
+            return str(v)
+        return v
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -70,5 +92,12 @@ class ExperienceResponse(BaseModel):
     created_at: datetime
     failure_reasons: List[FailureReasonResponse] = []
     nlp_insight: Optional[ReviewNLPInsightResponse] = None
+
+    @field_validator("id", "user_id", "gift_id", mode="before")
+    @classmethod
+    def convert_uuid_to_str(cls, v):
+        if isinstance(v, UUID):
+            return str(v)
+        return v
 
     model_config = ConfigDict(from_attributes=True)

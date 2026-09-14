@@ -30,6 +30,8 @@ def setup_test_db():
     db.close()
     yield
     Base.metadata.drop_all(bind=engine)
+    engine.dispose()
+    app.dependency_overrides.clear()
     if os.path.exists("./test_api.db"):
         os.remove("./test_api.db")
 

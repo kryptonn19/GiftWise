@@ -107,8 +107,9 @@ FAILURE_FREE_TEXTS = {
 def generate_synthetic_dataset(db: Session, num_experiences: int = 750):
     print(f"🎲 Generating {num_experiences} synthetic gifting experiences (`is_synthetic = True`)...")
 
-    # Ensure tables exist
-    Base.metadata.create_all(bind=engine)
+    # Ensure tables exist on the current session's engine
+    target_engine = db.get_bind()
+    Base.metadata.create_all(bind=target_engine)
 
     # 1. Seed base catalog first
     seed_scaffold(db)
