@@ -52,6 +52,14 @@ app.include_router(analytics_router, prefix=settings.API_V1_STR)
 def health_check():
     return {"status": "ok", "project": settings.PROJECT_NAME}
 
+import os
+from fastapi.staticfiles import StaticFiles
+
+# Mount static frontend application
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_dir):
+    app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("backend.app.main:app", host="0.0.0.0", port=8000, reload=True)

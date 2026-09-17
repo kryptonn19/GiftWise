@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GiftWise - Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: rgba(30, 41, 59, 0.7);
+      --bg-card-hover: rgba(51, 65, 85, 0.8);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --accent-primary: #8b5cf6;
+      --accent-primary-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      --accent-secondary: #ec4899;
+      --accent-success: #10b981;
+      --accent-warning: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Navbar */
+    header {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--accent-primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-icon {
+      font-size: 1.8rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav button {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-family: inherit;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    nav button:hover, nav button.active {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-color);
+    }
+
+    nav button.active {
+      background: var(--accent-primary-gradient);
+      color: #fff;
+      border: none;
+    }
+
+    .docs-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(139, 92, 246, 0.2);
+      border: 1px solid rgba(139, 92, 246, 0.4);
+      color: #c084fc;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .docs-btn:hover {
+      background: rgba(139, 92, 246, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards & Grid Layout */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      background: var(--accent-primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--accent-primary-gradient);
+      color: white;
+      border: none;
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-submit:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-purple { background: rgba(139, 92, 246, 0.2); color: #a855f7; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-yellow { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .results-container {
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="brand-icon">🎁</span>
+      <span>GiftWise</span>
+    </div>
+    <nav>
+      <button class="active" onclick="switchTab('recommendations')">💡 AI Finder</button>
+      <button onclick="switchTab('analytics')">📊 Analytics Views</button>
+      <button onclick="switchTab('catalog')">🎁 Gift Catalog</button>
+      <button onclick="switchTab('log-experience')">📝 Log Experience</button>
+    </nav>
+    <a href="/docs" target="_blank" class="docs-btn">
+      <span>⚡ Swagger API Docs</span>
+    </a>
+  </header>
+
+  <main>
+    <!-- TAB 1: RECOMMENDATION FINDER -->
+    <section id="recommendations" class="tab-content active">
+      <div class="card">
+        <h2 style="margin-bottom: 0.5rem;">💡 AI Recommendation Engine</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Find optimal, Bayesian-scored gift recommendations with failure prediction & prior smoothing.</p>
+
+        <form id="recommendation-form" onsubmit="fetchRecommendations(event)">
+          <div class="grid-3">
+            <div class="form-group">
+              <label for="rec-occasion">Occasion</label>
+              <select id="rec-occasion" required></select>
+            </div>
+
+            <div class="form-group">
+              <label for="rec-relationship">Relationship</label>
+              <select id="rec-relationship" required></select>
+            </div>
+
+            <div class="form-group">
+              <label for="rec-budget-min">Budget Min ($)</label>
+              <input type="number" id="rec-budget-min" value="20" min="0" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="rec-budget-max">Budget Max ($)</label>
+              <input type="number" id="rec-budget-max" value="150" min="0" required>
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+              <button type="submit" class="btn-submit">⚡ Generate AI Recommendations</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div id="rec-results" class="results-container"></div>
+    </section>
+
+    <!-- TAB 2: ANALYTICS VIEWS -->
+    <section id="analytics" class="tab-content">
+      <h2 style="margin-bottom: 0.5rem;">📊 SQL Analytics Intelligence Dashboard</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Real-time execution of the 7 SQL Analytics Views in Milestone 6.</p>
+
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <div class="card">
+          <h3>1. Giver vs Recipient Satisfaction Gap</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Headline gap comparing giver expectation vs recipient reality.</p>
+          <div id="analytics-gap-table">Loading...</div>
+        </div>
+
+        <div class="card">
+          <h3>2. Budget Bucket Satisfaction</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Average ratings and satisfaction gap across price points.</p>
+          <div id="analytics-budget-table">Loading...</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 1.5rem;">
+        <div class="card">
+          <h3>3. Reliable vs Polarizing Gifts</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Performance classifications based on mean & variance.</p>
+          <div id="analytics-reliable-table">Loading...</div>
+        </div>
+
+        <div class="card">
+          <h3>4. Failure Reason Frequency</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Common pitfalls grouped by gift category.</p>
+          <div id="analytics-failure-table">Loading...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: GIFT CATALOG -->
+    <section id="catalog" class="tab-content">
+      <h2 style="margin-bottom: 0.5rem;">🎁 Gift Catalog Explorer</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Browse available gifts in the GiftWise intelligence database.</p>
+      <div id="catalog-grid" class="grid-3"></div>
+    </section>
+
+    <!-- TAB 4: LOG EXPERIENCE -->
+    <section id="log-experience" class="tab-content">
+      <div class="card" style="max-width: 700px; margin: 0 auto;">
+        <h2 style="margin-bottom: 0.5rem;">📝 Log a Gifting Experience</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Contribute real gifting outcome data to train the intelligence engine.</p>
+        
+        <form id="experience-form" onsubmit="submitExperience(event)">
+          <div class="form-group">
+            <label for="exp-gift">Select Gift</label>
+            <select id="exp-gift" required></select>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label for="exp-occasion">Occasion</label>
+              <select id="exp-occasion" required></select>
+            </div>
+            <div class="form-group">
+              <label for="exp-relationship">Relationship</label>
+              <select id="exp-relationship" required></select>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label for="exp-budget">Actual Budget ($)</label>
+              <input type="number" id="exp-budget" value="45" min="0" required>
+            </div>
+            <div class="form-group">
+              <label for="exp-giver-rating">Giver Rating (1-10)</label>
+              <input type="number" id="exp-giver-rating" value="8" min="1" max="10" required>
+            </div>
+            <div class="form-group">
+              <label for="exp-recipient-rating">Recipient Rating (1-10)</label>
+              <input type="number" id="exp-recipient-rating" value="9" min="1" max="10" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exp-review">Review / Notes</label>
+            <textarea id="exp-review" rows="3" placeholder="Describe how the recipient reacted..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Submit Experience</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = '/api';
+    let lookupsData = null;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      event.target.classList.add('active');
+
+      if (tabId === 'analytics') loadAnalytics();
+      if (tabId === 'catalog') loadCatalog();
+    }
+
+    async function loadLookups() {
+      try {
+        const res = await fetch(`${API_BASE}/lookups`);
+        lookupsData = await res.json();
+
+        // Populate Occasions
+        const occSelects = [document.getElementById('rec-occasion'), document.getElementById('exp-occasion')];
+        occSelects.forEach(select => {
+          select.innerHTML = lookupsData.occasions.map(o => `<option value="${o.id}">${o.name}</option>`).join('');
+        });
+
+        // Populate Relationships
+        const relSelects = [document.getElementById('rec-relationship'), document.getElementById('exp-relationship')];
+        relSelects.forEach(select => {
+          select.innerHTML = lookupsData.relationships.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+        });
+      } catch (err) {
+        console.error("Error loading lookups:", err);
+      }
+    }
+
+    async function fetchRecommendations(e) {
+      e.preventDefault();
+      const resultsDiv = document.getElementById('rec-results');
+      resultsDiv.innerHTML = '<p style="color: var(--text-muted);">Generating recommendations via Bayesian engine...</p>';
+
+      const payload = {
+        occasion_id: parseInt(document.getElementById('rec-occasion').value),
+        relationship_id: parseInt(document.getElementById('rec-relationship').value),
+        budget_min: parseFloat(document.getElementById('rec-budget-min').value),
+        budget_max: parseFloat(document.getElementById('rec-budget-max').value),
+        interest_ids: [],
+        personality_ids: []
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/recommendations`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        renderRecommendations(data);
+      } catch (err) {
+        resultsDiv.innerHTML = `<p style="color: var(--accent-secondary);">Error fetching recommendations: ${err}</p>`;
+      }
+    }
+
+    function renderRecommendations(data) {
+      const container = document.getElementById('rec-results');
+      if (!data.recommendations || data.recommendations.length === 0) {
+        container.innerHTML = '<div class="card"><p>No candidates found matching constraints.</p></div>';
+        return;
+      }
+
+      let html = `<div class="card" style="margin-bottom: 1.5rem;">
+        <h3>AI Recommendation Summary</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Candidates Evaluated: <strong>${data.total_candidates_found}</strong> | Cold Start Fallback: <strong>${data.cold_start_fallback_applied ? 'Applied' : 'None'}</strong></p>
+      </div><div class="grid-2">`;
+
+      data.recommendations.forEach(rec => {
+        const confBadge = rec.confidence_level === 'High' ? 'badge-green' : (rec.confidence_level === 'Medium' ? 'badge-purple' : 'badge-yellow');
+        html += `
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="badge ${confBadge}">Confidence: ${rec.confidence_level}</span>
+              <span style="font-weight: 700; color: #c084fc;">Score: ${rec.bayesian_score}</span>
+            </div>
+            <h3 style="margin-bottom: 0.4rem;">${rec.gift_name}</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">${rec.category}</p>
+            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">${rec.explanation_notes}</p>
+            <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+              Price Range: $${rec.typical_price_min} - $${rec.typical_price_max} | Sample Size n=${rec.sample_size_n}
+            </div>
+          </div>
+        `;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+
+    async function loadAnalytics() {
+      // 1. Satisfaction Gap
+      try {
+        const res1 = await fetch(`${API_BASE}/analytics/giver-vs-recipient-gap`);
+        const gapData = await res1.json();
+        let html1 = `<table><thead><tr><th>Giver Rating</th><th>Recipient Rating</th><th>Count</th><th>Avg Gap</th></tr></thead><tbody>`;
+        gapData.slice(0, 5).forEach(row => {
+          html1 += `<tr><td>${row.giver_rating}</td><td>${row.recipient_rating}</td><td>${row.experience_count}</td><td>${row.avg_gap}</td></tr>`;
+        });
+        html1 += `</tbody></table>`;
+        document.getElementById('analytics-gap-table').innerHTML = html1;
+      } catch (e) {}
+
+      // 2. Budget Buckets
+      try {
+        const res2 = await fetch(`${API_BASE}/analytics/rating-by-budget-bucket`);
+        const budgetData = await res2.json();
+        let html2 = `<table><thead><tr><th>Bucket</th><th>Experiences</th><th>Recipient Avg</th><th>Gap</th></tr></thead><tbody>`;
+        budgetData.forEach(row => {
+          html2 += `<tr><td>${row.budget_bucket}</td><td>${row.total_experiences}</td><td>${row.avg_recipient_rating}</td><td>${row.avg_satisfaction_gap}</td></tr>`;
+        });
+        html2 += `</tbody></table>`;
+        document.getElementById('analytics-budget-table').innerHTML = html2;
+      } catch (e) {}
+
+      // 3. Reliable vs Polarizing
+      try {
+        const res3 = await fetch(`${API_BASE}/analytics/reliable-vs-polarizing`);
+        const relData = await res3.json();
+        let html3 = `<table><thead><tr><th>Gift</th><th>Classification</th><th>Mean</th><th>StdDev</th></tr></thead><tbody>`;
+        relData.slice(0, 5).forEach(row => {
+          html3 += `<tr><td>${row.gift_name}</td><td><span class="badge badge-purple">${row.gift_performance_classification}</span></td><td>${row.mean_recipient_rating}</td><td>${row.rating_stddev}</td></tr>`;
+        });
+        html3 += `</tbody></table>`;
+        document.getElementById('analytics-reliable-table').innerHTML = html3;
+      } catch (e) {}
+
+      // 4. Failure Reasons
+      try {
+        const res4 = await fetch(`${API_BASE}/analytics/failure-reasons`);
+        const failData = await res4.json();
+        let html4 = `<table><thead><tr><th>Category</th><th>Reason Code</th><th>Count</th></tr></thead><tbody>`;
+        failData.slice(0, 5).forEach(row => {
+          html4 += `<tr><td>${row.gift_category}</td><td>${row.reason_code}</td><td>${row.failure_count}</td></tr>`;
+        });
+        html4 += `</tbody></table>`;
+        document.getElementById('analytics-failure-table').innerHTML = html4;
+      } catch (e) {}
+    }
+
+    async function loadCatalog() {
+      const container = document.getElementById('catalog-grid');
+      container.innerHTML = '<p style="color: var(--text-muted);">Loading gifts...</p>';
+      try {
+        const res = await fetch(`${API_BASE}/gifts`);
+        const gifts = await res.json();
+        
+        // Populate select box for Experience Logging tab
+        const expGiftSelect = document.getElementById('exp-gift');
+        expGiftSelect.innerHTML = gifts.map(g => `<option value="${g.id}">${g.name} (${g.category})</option>`).join('');
+
+        let html = '';
+        gifts.forEach(g => {
+          html += `
+            <div class="card">
+              <span class="badge badge-purple" style="margin-bottom: 0.5rem;">${g.category}</span>
+              <h3 style="margin-bottom: 0.5rem;">${g.name}</h3>
+              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">${g.description || ''}</p>
+              <div style="font-weight: 600; color: #34d399;">$${g.typical_price_min} - $${g.typical_price_max}</div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      } catch (e) {
+        container.innerHTML = `<p style="color: var(--accent-secondary);">Error loading catalog: ${e}</p>`;
+      }
+    }
+
+    async function submitExperience(e) {
+      e.preventDefault();
+      const payload = {
+        gift_id: document.getElementById('exp-gift').value,
+        occasion_id: parseInt(document.getElementById('exp-occasion').value),
+        relationship_id: parseInt(document.getElementById('exp-relationship').value),
+        recipient_profile: { age_range: "25-34", interest_ids: [], personality_ids: [] },
+        budget_actual: parseFloat(document.getElementById('exp-budget').value),
+        giver_rating: parseInt(document.getElementById('exp-giver-rating').value),
+        recipient_rating: parseInt(document.getElementById('exp-recipient-rating').value),
+        would_recommend: parseInt(document.getElementById('exp-recipient-rating').value) >= 7,
+        review_text: document.getElementById('exp-review').value,
+        reaction_text: "Submitted via Web Dashboard",
+        failure_reasons: []
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/experiences`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          alert('✅ Gifting Experience logged successfully!');
+          document.getElementById('experience-form').reset();
+        } else {
+          alert('❌ Failed to log experience.');
+        }
+      } catch (err) {
+        alert(`Error: ${err}`);
+      }
+    }
+
+    // Initialize on load
+    loadLookups();
+  </script>
+</body>
+</html>

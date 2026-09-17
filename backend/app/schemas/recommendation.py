@@ -1,5 +1,6 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, field_validator
 from typing import List, Optional
+from uuid import UUID
 from backend.app.models.db_models import ConfidenceLevel
 
 class RecommendationQueryCreate(BaseModel):
@@ -37,6 +38,13 @@ class RecommendationItem(BaseModel):
     top_failure_reason: Optional[str] = None
     matching_experiences_sample: List[MatchingExperienceSample] = []
 
+    @field_validator("gift_id", mode="before")
+    @classmethod
+    def convert_uuid_to_str(cls, v):
+        if isinstance(v, UUID):
+            return str(v)
+        return v
+
     model_config = ConfigDict(from_attributes=True)
 
 class RecommendationQuerySummary(BaseModel):
@@ -56,3 +64,10 @@ class RecommendationResponse(BaseModel):
     fallback_notes: Optional[str] = None
     total_candidates_found: int
     recommendations: List[RecommendationItem]
+
+    @field_validator("query_id", mode="before")
+    @classmethod
+    def convert_uuid_to_str(cls, v):
+        if isinstance(v, UUID):
+            return str(v)
+        return v
