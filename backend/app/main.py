@@ -14,12 +14,15 @@ from backend.app.db.session import SessionLocal
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Ensure database tables exist on startup
-    Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
     try:
-        initialize_analytics_views(db)
-    finally:
-        db.close()
+        Base.metadata.create_all(bind=engine)
+        db = SessionLocal()
+        try:
+            initialize_analytics_views(db)
+        finally:
+            db.close()
+    except Exception as e:
+        print(f"Warning: Database initialization skipped during startup: {e}")
     yield
 
 # Initialize FastAPI app
