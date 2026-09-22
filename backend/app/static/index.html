@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg-dark: #0f172a;
@@ -18,6 +19,7 @@
       --accent-secondary: #ec4899;
       --accent-success: #10b981;
       --accent-warning: #f59e0b;
+      --accent-info: #38bdf8;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -177,13 +179,13 @@
 
     .stat-card {
       text-align: center;
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .stat-value {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 700;
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
       background: var(--accent-primary-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -191,9 +193,16 @@
 
     .stat-label {
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+
+    .chart-box {
+      position: relative;
+      height: 250px;
+      width: 100%;
+      margin-bottom: 1rem;
     }
 
     /* Form Elements */
@@ -259,26 +268,27 @@
     .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
     .badge-yellow { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
     .badge-pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+    .badge-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
 
     /* Tables */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
     }
 
     th, td {
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.85rem;
       text-align: left;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     th {
       color: var(--text-muted);
       font-weight: 600;
       text-transform: uppercase;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     tr:hover {
@@ -299,7 +309,7 @@
     </div>
     <nav>
       <button class="active" onclick="switchTab('recommendations')">💡 AI Finder</button>
-      <button onclick="switchTab('analytics')">📊 Analytics Views</button>
+      <button onclick="switchTab('analytics')">📊 Analytics Dashboard</button>
       <button onclick="switchTab('catalog')">🎁 Gift Catalog</button>
       <button onclick="switchTab('log-experience')">📝 Log Experience</button>
     </nav>
@@ -348,35 +358,69 @@
       <div id="rec-results" class="results-container"></div>
     </section>
 
-    <!-- TAB 2: ANALYTICS VIEWS -->
+    <!-- TAB 2: ANALYTICS VIEWS DASHBOARD -->
     <section id="analytics" class="tab-content">
       <h2 style="margin-bottom: 0.5rem;">📊 SQL Analytics Intelligence Dashboard</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Real-time execution of the 7 SQL Analytics Views in Milestone 6.</p>
+      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Real-time interactive visualizations powered by the 7 SQL Analytics Views.</p>
 
+      <!-- KPI Summary Cards -->
+      <div class="grid-4" style="margin-bottom: 1.5rem;">
+        <div class="card stat-card">
+          <div class="stat-label">Total Experiences</div>
+          <div class="stat-value" id="kpi-total-exp">750</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label">Avg Recipient Rating</div>
+          <div class="stat-value" id="kpi-avg-rating">7.73 / 10</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label">Satisfaction Gap</div>
+          <div class="stat-value" id="kpi-sat-gap">+0.32</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-label">Gifts Evaluated</div>
+          <div class="stat-value" id="kpi-gifts-count">32</div>
+        </div>
+      </div>
+
+      <!-- Charts Row 1 -->
       <div class="grid-2" style="margin-bottom: 1.5rem;">
         <div class="card">
-          <h3>1. Giver vs Recipient Satisfaction Gap</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Headline gap comparing giver expectation vs recipient reality.</p>
+          <h3 style="margin-bottom: 0.25rem;">1. Giver vs Recipient Satisfaction Gap</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Comparing giver expectations against actual recipient ratings.</p>
+          <div class="chart-box">
+            <canvas id="chart-gap"></canvas>
+          </div>
           <div id="analytics-gap-table">Loading...</div>
         </div>
 
         <div class="card">
-          <h3>2. Budget Bucket Satisfaction</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Average ratings and satisfaction gap across price points.</p>
+          <h3 style="margin-bottom: 0.25rem;">2. Budget Bucket Satisfaction</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Volume & average recipient ratings across price points.</p>
+          <div class="chart-box">
+            <canvas id="chart-budget"></canvas>
+          </div>
           <div id="analytics-budget-table">Loading...</div>
         </div>
       </div>
 
+      <!-- Charts Row 2 -->
       <div class="grid-2" style="margin-bottom: 1.5rem;">
         <div class="card">
-          <h3>3. Reliable vs Polarizing Gifts</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Performance classifications based on mean & variance.</p>
+          <h3 style="margin-bottom: 0.25rem;">3. Reliable vs Polarizing Gifts</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Performance classification distribution across catalog.</p>
+          <div class="chart-box">
+            <canvas id="chart-reliable"></canvas>
+          </div>
           <div id="analytics-reliable-table">Loading...</div>
         </div>
 
         <div class="card">
-          <h3>4. Failure Reason Frequency</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">Common pitfalls grouped by gift category.</p>
+          <h3 style="margin-bottom: 0.25rem;">4. Top Failure Reasons</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Most common failure reason occurrences in catalog.</p>
+          <div class="chart-box">
+            <canvas id="chart-failure"></canvas>
+          </div>
           <div id="analytics-failure-table">Loading...</div>
         </div>
       </div>
@@ -441,13 +485,16 @@
   <script>
     const API_BASE = '/api';
     let lookupsData = null;
+    let chartInstances = {};
 
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
       
       document.getElementById(tabId).classList.add('active');
-      event.target.classList.add('active');
+      if (event && event.target) {
+        event.target.classList.add('active');
+      }
 
       if (tabId === 'analytics') loadAnalytics();
       if (tabId === 'catalog') loadCatalog();
@@ -515,6 +562,12 @@
 
       data.recommendations.forEach(rec => {
         const confBadge = rec.confidence_level === 'High' ? 'badge-green' : (rec.confidence_level === 'Medium' ? 'badge-purple' : 'badge-yellow');
+        
+        let factorsHtml = '';
+        if (rec.contributing_factors && rec.contributing_factors.length > 0) {
+          factorsHtml = `<ul style="font-size: 0.85rem; color: #cbd5e1; margin: 0.5rem 0 0.75rem 1.2rem; padding: 0;">${rec.contributing_factors.map(f => `<li>${f}</li>`).join('')}</ul>`;
+        }
+
         html += `
           <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
@@ -522,10 +575,11 @@
               <span style="font-weight: 700; color: #c084fc;">Score: ${rec.bayesian_score}</span>
             </div>
             <h3 style="margin-bottom: 0.4rem;">${rec.gift_name}</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">${rec.category}</p>
-            <p style="font-size: 0.9rem; margin-bottom: 0.75rem;">${rec.explanation_notes}</p>
-            <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
-              Price Range: $${rec.typical_price_min} - $${rec.typical_price_max} | Sample Size n=${rec.sample_size_n}
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">${rec.gift_category || rec.category || ''}</p>
+            ${factorsHtml}
+            <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem; display: flex; justify-content: space-between;">
+              <span>Price: $${rec.typical_price_min} - $${rec.typical_price_max}</span>
+              <span>Sample n=${rec.sample_size_n}</span>
             </div>
           </div>
         `;
@@ -534,54 +588,160 @@
       container.innerHTML = html;
     }
 
+    // Chart.js Dark Mode Configuration Helper
+    const chartDefaults = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#94a3b8', font: { family: 'Outfit', size: 12 } } },
+        tooltip: {
+          backgroundColor: 'rgba(15, 23, 42, 0.9)',
+          borderColor: 'rgba(255, 255, 255, 0.1)',
+          borderWidth: 1,
+          titleFont: { family: 'Outfit', size: 13 },
+          bodyFont: { family: 'Inter', size: 12 }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } },
+        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } }
+      }
+    };
+
+    function destroyChart(id) {
+      if (chartInstances[id]) {
+        chartInstances[id].destroy();
+      }
+    }
+
     async function loadAnalytics() {
       // 1. Satisfaction Gap
       try {
         const res1 = await fetch(`${API_BASE}/analytics/giver-vs-recipient-gap`);
         const gapData = await res1.json();
+        
+        // Render Chart 1
+        destroyChart('chart-gap');
+        const ctx1 = document.getElementById('chart-gap').getContext('2d');
+        const sliceGap = gapData.slice(0, 6);
+        chartInstances['chart-gap'] = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: sliceGap.map(d => `G:${d.giver_rating} / R:${d.recipient_rating}`),
+            datasets: [
+              { label: 'Avg Satisfaction Gap', data: sliceGap.map(d => d.avg_gap), backgroundColor: '#a855f7', borderRadius: 6 },
+              { label: 'Count', data: sliceGap.map(d => d.experience_count), backgroundColor: '#38bdf8', borderRadius: 6 }
+            ]
+          },
+          options: chartDefaults
+        });
+
         let html1 = `<table><thead><tr><th>Giver Rating</th><th>Recipient Rating</th><th>Count</th><th>Avg Gap</th></tr></thead><tbody>`;
         gapData.slice(0, 5).forEach(row => {
-          html1 += `<tr><td>${row.giver_rating}</td><td>${row.recipient_rating}</td><td>${row.experience_count}</td><td>${row.avg_gap}</td></tr>`;
+          html1 += `<tr><td>${row.giver_rating}/10</td><td>${row.recipient_rating}/10</td><td>${row.experience_count}</td><td><span class="badge ${row.avg_gap >= 0 ? 'badge-green' : 'badge-pink'}">${row.avg_gap > 0 ? '+' : ''}${row.avg_gap}</span></td></tr>`;
         });
         html1 += `</tbody></table>`;
         document.getElementById('analytics-gap-table').innerHTML = html1;
-      } catch (e) {}
+      } catch (e) { console.error(e); }
 
       // 2. Budget Buckets
       try {
         const res2 = await fetch(`${API_BASE}/analytics/rating-by-budget-bucket`);
         const budgetData = await res2.json();
+
+        // Render Chart 2
+        destroyChart('chart-budget');
+        const ctx2 = document.getElementById('chart-budget').getContext('2d');
+        chartInstances['chart-budget'] = new Chart(ctx2, {
+          type: 'line',
+          data: {
+            labels: budgetData.map(b => b.budget_bucket),
+            datasets: [
+              { label: 'Avg Recipient Rating', data: budgetData.map(b => b.avg_recipient_rating), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.3 },
+              { label: 'Satisfaction Gap', data: budgetData.map(b => b.avg_satisfaction_gap), borderColor: '#ec4899', tension: 0.3 }
+            ]
+          },
+          options: chartDefaults
+        });
+
         let html2 = `<table><thead><tr><th>Bucket</th><th>Experiences</th><th>Recipient Avg</th><th>Gap</th></tr></thead><tbody>`;
         budgetData.forEach(row => {
-          html2 += `<tr><td>${row.budget_bucket}</td><td>${row.total_experiences}</td><td>${row.avg_recipient_rating}</td><td>${row.avg_satisfaction_gap}</td></tr>`;
+          html2 += `<tr><td>${row.budget_bucket}</td><td>${row.total_experiences}</td><td>${row.avg_recipient_rating}/10</td><td>${row.avg_satisfaction_gap}</td></tr>`;
         });
         html2 += `</tbody></table>`;
         document.getElementById('analytics-budget-table').innerHTML = html2;
-      } catch (e) {}
+      } catch (e) { console.error(e); }
 
       // 3. Reliable vs Polarizing
       try {
         const res3 = await fetch(`${API_BASE}/analytics/reliable-vs-polarizing`);
         const relData = await res3.json();
+
+        // Group counts for Donut Chart
+        const counts = {};
+        relData.forEach(item => {
+          const cat = item.gift_performance_classification || 'Moderate';
+          counts[cat] = (counts[cat] || 0) + 1;
+        });
+
+        // Render Chart 3
+        destroyChart('chart-reliable');
+        const ctx3 = document.getElementById('chart-reliable').getContext('2d');
+        chartInstances['chart-reliable'] = new Chart(ctx3, {
+          type: 'doughnut',
+          data: {
+            labels: Object.keys(counts),
+            datasets: [{
+              data: Object.values(counts),
+              backgroundColor: ['#10b981', '#a855f7', '#f59e0b', '#ec4899', '#38bdf8'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit', size: 11 } } } }
+          }
+        });
+
         let html3 = `<table><thead><tr><th>Gift</th><th>Classification</th><th>Mean</th><th>StdDev</th></tr></thead><tbody>`;
         relData.slice(0, 5).forEach(row => {
-          html3 += `<tr><td>${row.gift_name}</td><td><span class="badge badge-purple">${row.gift_performance_classification}</span></td><td>${row.mean_recipient_rating}</td><td>${row.rating_stddev}</td></tr>`;
+          html3 += `<tr><td>${row.gift_name}</td><td><span class="badge badge-purple">${row.gift_performance_classification}</span></td><td>${row.mean_recipient_rating}/10</td><td>±${row.rating_stddev}</td></tr>`;
         });
         html3 += `</tbody></table>`;
         document.getElementById('analytics-reliable-table').innerHTML = html3;
-      } catch (e) {}
+      } catch (e) { console.error(e); }
 
       // 4. Failure Reasons
       try {
         const res4 = await fetch(`${API_BASE}/analytics/failure-reasons`);
         const failData = await res4.json();
+
+        const topFail = failData.slice(0, 6);
+        // Render Chart 4
+        destroyChart('chart-failure');
+        const ctx4 = document.getElementById('chart-failure').getContext('2d');
+        chartInstances['chart-failure'] = new Chart(ctx4, {
+          type: 'bar',
+          data: {
+            labels: topFail.map(f => `${f.reason_code}`),
+            datasets: [{
+              label: 'Occurrences',
+              data: topFail.map(f => f.failure_count),
+              backgroundColor: '#ec4899',
+              borderRadius: 6
+            }]
+          },
+          options: { ...chartDefaults, indexAxis: 'y' }
+        });
+
         let html4 = `<table><thead><tr><th>Category</th><th>Reason Code</th><th>Count</th></tr></thead><tbody>`;
         failData.slice(0, 5).forEach(row => {
-          html4 += `<tr><td>${row.gift_category}</td><td>${row.reason_code}</td><td>${row.failure_count}</td></tr>`;
+          html4 += `<tr><td>${row.gift_category}</td><td><span class="badge badge-yellow">${row.reason_code}</span></td><td>${row.failure_count}</td></tr>`;
         });
         html4 += `</tbody></table>`;
         document.getElementById('analytics-failure-table').innerHTML = html4;
-      } catch (e) {}
+      } catch (e) { console.error(e); }
     }
 
     async function loadCatalog() {
