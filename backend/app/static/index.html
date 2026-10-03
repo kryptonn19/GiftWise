@@ -3,25 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GiftWise - Intelligence Platform</title>
+  <title>GiftWise - AI Intelligence & Analytics Platform</title>
+  <meta name="description" content="Community-Driven Gift Intelligence Platform powered by Bayesian Recommendation Engine & SQL Analytics.">
+  
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root {
-      --bg-dark: #0f172a;
-      --bg-card: rgba(30, 41, 59, 0.7);
-      --bg-card-hover: rgba(51, 65, 85, 0.8);
-      --border-color: rgba(255, 255, 255, 0.1);
-      --accent-primary: #8b5cf6;
-      --accent-primary-gradient: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
-      --accent-secondary: #ec4899;
-      --accent-success: #10b981;
-      --accent-warning: #f59e0b;
-      --accent-info: #38bdf8;
+      --bg-dark: #090d16;
+      --bg-card: rgba(18, 26, 43, 0.65);
+      --bg-card-hover: rgba(30, 42, 68, 0.8);
+      --bg-card-solid: #111827;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(168, 85, 247, 0.35);
+      
+      --accent-purple: #a855f7;
+      --accent-indigo: #6366f1;
+      --accent-pink: #ec4899;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #06b6d4;
+      
+      --gradient-primary: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #ec4899 100%);
+      --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+      --gradient-glow: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      --shadow-glow: 0 0 25px rgba(168, 85, 247, 0.25);
     }
 
     * {
@@ -31,26 +54,89 @@
     }
 
     body {
-      font-family: 'Outfit', 'Inter', -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, sans-serif;
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 50%);
+        radial-gradient(at 10% 10%, rgba(168, 85, 247, 0.12) 0px, transparent 40%),
+        radial-gradient(at 90% 90%, rgba(99, 102, 241, 0.12) 0px, transparent 40%),
+        radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.05) 0px, transparent 60%);
+      background-attachment: fixed;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Ambient Background Animated Grids */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Toast Notification System */
+    #toast-container {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      pointer-events: none;
+    }
+
+    .toast {
+      pointer-events: auto;
+      background: rgba(18, 26, 43, 0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-purple);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 300px;
+      max-width: 420px;
+      animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.success { border-left-color: var(--accent-emerald); }
+    .toast.error { border-left-color: var(--accent-pink); }
+    .toast.info { border-left-color: var(--accent-cyan); }
+
+    @keyframes toastIn {
+      from { transform: translateX(100%) scale(0.9); opacity: 0; }
+      to { transform: translateX(0) scale(1); opacity: 1; }
     }
 
     /* Header Navbar */
     header {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 1rem 2rem;
+      background: rgba(9, 13, 22, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.85rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -59,447 +145,1103 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.85rem;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      background: var(--gradient-primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .brand:hover .brand-logo {
+      transform: rotate(10deg) scale(1.05);
+    }
+
+    .brand-title {
       font-size: 1.5rem;
-      font-weight: 700;
-      background: var(--accent-primary-gradient);
+      font-weight: 800;
+      background: var(--gradient-primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .brand-icon {
-      font-size: 1.8rem;
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
     }
 
+    /* Nav Pills */
     nav {
       display: flex;
-      gap: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      gap: 4px;
     }
 
     nav button {
       background: transparent;
-      border: 1px solid transparent;
+      border: none;
       color: var(--text-muted);
-      padding: 0.5rem 1rem;
-      border-radius: 9999px;
-      font-family: inherit;
-      font-weight: 500;
-      font-size: 0.95rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: var(--radius-full);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    nav button:hover, nav button.active {
+    nav button:hover {
       color: var(--text-main);
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--border-color);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     nav button.active {
-      background: var(--accent-primary-gradient);
+      background: var(--gradient-primary);
       color: #fff;
-      border: none;
+      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-emerald);
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+    }
+
+    .status-pulse {
+      width: 7px;
+      height: 7px;
+      background-color: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.25); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.8; }
     }
 
     .docs-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      background: rgba(139, 92, 246, 0.2);
-      border: 1px solid rgba(139, 92, 246, 0.4);
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
       color: #c084fc;
       padding: 0.5rem 1rem;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: all 0.2s ease;
     }
 
     .docs-btn:hover {
-      background: rgba(139, 92, 246, 0.3);
+      background: rgba(168, 85, 247, 0.22);
+      border-color: rgba(168, 85, 247, 0.5);
       transform: translateY(-1px);
     }
 
     /* Main Container */
     main {
+      position: relative;
+      z-index: 1;
       flex: 1;
-      max-width: 1280px;
+      max-width: 1320px;
       width: 100%;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 2rem 1.5rem 3rem 1.5rem;
     }
 
     .tab-content {
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: tabFade 0.35s ease;
     }
 
     .tab-content.active {
       display: block;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes tabFade {
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Cards & Grid Layout */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
+    /* Section Banner Headers */
+    .section-header {
+      margin-bottom: 2rem;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.4rem;
     }
 
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      max-width: 750px;
+      line-height: 1.5;
     }
 
+    /* Cards & Layout */
     .card {
       background: var(--bg-card);
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 1.5rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-glass);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     }
 
     .card:hover {
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
     }
 
+    .card-interactive:hover {
+      transform: translateY(-3px);
+      border-color: var(--border-glow);
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
+
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      header { flex-direction: column; gap: 1rem; padding: 1rem; }
+      nav { width: 100%; overflow-x: auto; justify-content: flex-start; }
+    }
+
+    /* KPI Stat Cards */
     .stat-card {
-      text-align: center;
-      padding: 1.25rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-left: 3px solid transparent;
     }
 
-    .stat-value {
-      font-size: 2.2rem;
-      font-weight: 700;
-      margin-top: 0.4rem;
-      background: var(--accent-primary-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .stat-card.purple { border-left-color: var(--accent-purple); }
+    .stat-card.emerald { border-left-color: var(--accent-emerald); }
+    .stat-card.pink { border-left-color: var(--accent-pink); }
+    .stat-card.cyan { border-left-color: var(--accent-cyan); }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
     }
 
     .stat-label {
       color: var(--text-muted);
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
     }
 
-    .chart-box {
-      position: relative;
-      height: 250px;
-      width: 100%;
-      margin-bottom: 1rem;
+    .stat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    /* Form Elements */
+    .stat-value {
+      font-size: 2.3rem;
+      font-weight: 800;
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.1;
+      margin-bottom: 0.3rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-footer {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* Forms & Interactive Controls */
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.35rem;
     }
 
     label {
       display: block;
-      font-size: 0.9rem;
-      font-weight: 500;
+      font-size: 0.88rem;
+      font-weight: 600;
       color: var(--text-muted);
       margin-bottom: 0.5rem;
     }
 
-    input, select, textarea {
+    input[type="text"], input[type="number"], select, textarea {
       width: 100%;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(9, 13, 22, 0.7);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      padding: 0.8rem 1.1rem;
       color: var(--text-main);
       font-family: inherit;
       font-size: 0.95rem;
-      transition: border-color 0.2s;
+      transition: all 0.2s ease;
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--accent-primary);
+      border-color: var(--accent-purple);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+      background: rgba(18, 26, 43, 0.9);
     }
 
-    .btn-submit {
-      width: 100%;
-      background: var(--accent-primary-gradient);
-      color: white;
-      border: none;
-      padding: 0.85rem 1.5rem;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 1rem;
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1.1rem;
+      padding-right: 2.5rem;
+    }
+
+    /* Custom Selection Chips / Tags */
+    .chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.4rem;
+    }
+
+    .chip-item {
+      cursor: pointer;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 0.4rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .chip-item:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .chip-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .chip-item.active {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--accent-purple);
+      color: #e9d5ff;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+
+    /* Preset Quick Buttons */
+    .preset-btns {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .preset-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
+      transition: all 0.2s ease;
+    }
+
+    .preset-btn:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: var(--accent-purple);
+      color: var(--text-main);
+    }
+
+    /* Primary Gradient Submit Button */
+    .btn-submit {
+      width: 100%;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 0.95rem 1.75rem;
+      border-radius: var(--radius-md);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+      transition: all 0.25s ease;
     }
 
     .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(168, 85, 247, 0.55);
       opacity: 0.95;
-      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
     }
 
     /* Badges */
     .badge {
-      display: inline-block;
-      padding: 0.25rem 0.65rem;
-      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .badge-purple { background: rgba(139, 92, 246, 0.2); color: #a855f7; border: 1px solid rgba(139, 92, 246, 0.3); }
-    .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .badge-yellow { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-pink { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
-    .badge-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.3); }
 
     /* Tables */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: rgba(9, 13, 22, 0.4);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 0.75rem;
+      text-align: left;
     }
 
     th, td {
-      padding: 0.65rem 0.85rem;
-      text-align: left;
+      padding: 0.85rem 1.1rem;
       border-bottom: 1px solid var(--border-color);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
     }
 
     th {
+      background: rgba(18, 26, 43, 0.8);
       color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       font-size: 0.75rem;
+      letter-spacing: 0.05em;
     }
 
-    tr:hover {
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
       background: rgba(255, 255, 255, 0.02);
     }
 
+    .chart-box {
+      position: relative;
+      height: 280px;
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    /* Modal System */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--bg-card-solid);
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      width: 90%;
+      max-width: 600px;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      transform: translateY(20px) scale(0.95);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem;
+    }
+
+    .modal-close:hover { color: #fff; }
+
+    /* Catalog Search & Category Filter Pills */
+    .catalog-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cat-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .cat-pill:hover, .cat-pill.active {
+      background: rgba(168, 85, 247, 0.18);
+      border-color: var(--accent-purple);
+      color: var(--text-main);
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      min-width: 260px;
+    }
+
+    .search-input-wrapper input {
+      padding-left: 2.5rem;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 1rem;
+    }
+
+    /* Bayesian Score Progress Circle / Gauge */
+    .score-badge-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, rgba(99,102,241,0.1) 100%);
+      border: 2px solid var(--accent-purple);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(168,85,247,0.3);
+    }
+
+    .score-num {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    /* Rating Input Stars / Sliders with Live Feedback */
+    .rating-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .rating-val-display {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent-purple);
+      min-width: 60px;
+    }
+
+    /* Skeleton Loading Shimmer */
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--radius-sm);
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
     .results-container {
-      margin-top: 1.5rem;
+      margin-top: 1.75rem;
     }
   </style>
 </head>
 <body>
 
+  <!-- Ambient Grid Overlay -->
+  <div class="bg-grid"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Header Navbar -->
   <header>
-    <div class="brand">
-      <span class="brand-icon">🎁</span>
-      <span>GiftWise</span>
-    </div>
-    <nav>
-      <button class="active" onclick="switchTab('recommendations')">💡 AI Finder</button>
-      <button onclick="switchTab('analytics')">📊 Analytics Dashboard</button>
-      <button onclick="switchTab('catalog')">🎁 Gift Catalog</button>
-      <button onclick="switchTab('log-experience')">📝 Log Experience</button>
-    </nav>
-    <a href="/docs" target="_blank" class="docs-btn">
-      <span>⚡ Swagger API Docs</span>
+    <a href="#" class="brand">
+      <div class="brand-logo">🎁</div>
+      <div>
+        <div class="brand-title">GiftWise</div>
+        <div class="brand-subtitle">Bayesian Gifting Engine</div>
+      </div>
     </a>
+
+    <nav>
+      <button class="active" onclick="switchTab('recommendations', event)">
+        <span>💡</span> AI Finder
+      </button>
+      <button onclick="switchTab('analytics', event)">
+        <span>📊</span> SQL Analytics
+      </button>
+      <button onclick="switchTab('catalog', event)">
+        <span>🎁</span> Catalog
+      </button>
+      <button onclick="switchTab('log-experience', event)">
+        <span>📝</span> Log Experience
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <div class="status-badge">
+        <div class="status-pulse"></div>
+        <span>Bayesian v1.0 Active</span>
+      </div>
+      <a href="/docs" target="_blank" class="docs-btn">
+        <span>⚡ API Docs</span>
+      </a>
+    </div>
   </header>
 
+  <!-- Main Content Area -->
   <main>
+
     <!-- TAB 1: RECOMMENDATION FINDER -->
     <section id="recommendations" class="tab-content active">
-      <div class="card">
-        <h2 style="margin-bottom: 0.5rem;">💡 AI Recommendation Engine</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Find optimal, Bayesian-scored gift recommendations with failure prediction & prior smoothing.</p>
+      <div class="section-header">
+        <h1 class="section-title">
+          <span>💡</span> AI Recommendation Engine
+        </h1>
+        <p class="section-desc">
+          Get Bayesian-smoothed gift recommendations calibrated with prior expectations, cold-start fallback handling, and failure reason prediction.
+        </p>
+      </div>
 
+      <div class="card">
         <form id="recommendation-form" onsubmit="fetchRecommendations(event)">
-          <div class="grid-3">
+          <div class="grid-2" style="margin-bottom: 1.25rem;">
             <div class="form-group">
               <label for="rec-occasion">Occasion</label>
               <select id="rec-occasion" required></select>
             </div>
 
             <div class="form-group">
-              <label for="rec-relationship">Relationship</label>
+              <label for="rec-relationship">Relationship to Recipient</label>
               <select id="rec-relationship" required></select>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label for="rec-budget-min">Budget Min ($)</label>
-              <input type="number" id="rec-budget-min" value="20" min="0" required>
+          <!-- Budget Range Selector -->
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label style="margin-bottom: 0;">Budget Range ($)</label>
+              <span id="budget-range-label" style="font-size: 0.88rem; font-weight: 700; color: var(--accent-purple);">$20 – $150</span>
+            </div>
+            <div class="grid-2">
+              <div>
+                <input type="number" id="rec-budget-min" value="20" min="0" placeholder="Min Price" oninput="updateBudgetLabel()" required>
+              </div>
+              <div>
+                <input type="number" id="rec-budget-max" value="150" min="0" placeholder="Max Price" oninput="updateBudgetLabel()" required>
+              </div>
+            </div>
+            <div class="preset-btns">
+              <span style="font-size: 0.78rem; color: var(--text-dim); align-self: center; margin-right: 0.2rem;">Quick Presets:</span>
+              <button type="button" class="preset-btn" onclick="setBudget(10, 50)">Under $50</button>
+              <button type="button" class="preset-btn" onclick="setBudget(50, 100)">$50 - $100</button>
+              <button type="button" class="preset-btn" onclick="setBudget(100, 250)">$100 - $250</button>
+              <button type="button" class="preset-btn" onclick="setBudget(250, 1000)">$250+</button>
             </div>
           </div>
 
-          <div class="grid-2">
-            <div class="form-group">
-              <label for="rec-budget-max">Budget Max ($)</label>
-              <input type="number" id="rec-budget-max" value="150" min="0" required>
-            </div>
-            <div class="form-group" style="display: flex; align-items: flex-end;">
-              <button type="submit" class="btn-submit">⚡ Generate AI Recommendations</button>
-            </div>
+          <!-- Recipient Interests Selector Chips -->
+          <div class="form-group">
+            <label>Recipient Interests (Optional)</label>
+            <div id="interests-chips" class="chips-grid"></div>
           </div>
+
+          <!-- Recipient Personality Traits Selector Chips -->
+          <div class="form-group">
+            <label>Recipient Personality Traits (Optional)</label>
+            <div id="personalities-chips" class="chips-grid"></div>
+          </div>
+
+          <button type="submit" class="btn-submit" style="margin-top: 1rem;">
+            <span>⚡ Generate AI Recommendations</span>
+          </button>
         </form>
       </div>
 
+      <!-- Results Display Container -->
       <div id="rec-results" class="results-container"></div>
     </section>
 
-    <!-- TAB 2: ANALYTICS VIEWS DASHBOARD -->
+    <!-- TAB 2: ANALYTICS DASHBOARD -->
     <section id="analytics" class="tab-content">
-      <h2 style="margin-bottom: 0.5rem;">📊 SQL Analytics Intelligence Dashboard</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Real-time interactive visualizations powered by the 7 SQL Analytics Views.</p>
+      <div class="section-header">
+        <h1 class="section-title">
+          <span>📊</span> SQL Analytics Intelligence Dashboard
+        </h1>
+        <p class="section-desc">
+          Real-time interactive visualizations powered by GiftWise SQL Analytics Views: Giver vs Recipient Gap, Budget Bucket Performance, Reliability Classifications, and Failure Analytics.
+        </p>
+      </div>
 
       <!-- KPI Summary Cards -->
-      <div class="grid-4" style="margin-bottom: 1.5rem;">
-        <div class="card stat-card">
-          <div class="stat-label">Total Experiences</div>
+      <div class="grid-4" style="margin-bottom: 1.75rem;">
+        <div class="card stat-card purple">
+          <div class="stat-header">
+            <span class="stat-label">Total Experiences</span>
+            <div class="stat-icon">📝</div>
+          </div>
           <div class="stat-value" id="kpi-total-exp">750</div>
+          <div class="stat-footer">
+            <span>● Evaluated in database</span>
+          </div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-label">Avg Recipient Rating</div>
-          <div class="stat-value" id="kpi-avg-rating">7.73 / 10</div>
+
+        <div class="card stat-card emerald">
+          <div class="stat-header">
+            <span class="stat-label">Avg Recipient Rating</span>
+            <div class="stat-icon">⭐</div>
+          </div>
+          <div class="stat-value" id="kpi-avg-rating">7.73</div>
+          <div class="stat-footer">
+            <span>Out of 10.0 max rating</span>
+          </div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-label">Satisfaction Gap</div>
+
+        <div class="card stat-card pink">
+          <div class="stat-header">
+            <span class="stat-label">Satisfaction Gap</span>
+            <div class="stat-icon">📈</div>
+          </div>
           <div class="stat-value" id="kpi-sat-gap">+0.32</div>
+          <div class="stat-footer">
+            <span>Recipient vs Giver expectation</span>
+          </div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-label">Gifts Evaluated</div>
+
+        <div class="card stat-card cyan">
+          <div class="stat-header">
+            <span class="stat-label">Gifts Evaluated</span>
+            <div class="stat-icon">🎁</div>
+          </div>
           <div class="stat-value" id="kpi-gifts-count">32</div>
+          <div class="stat-footer">
+            <span>Catalog Items Tracked</span>
+          </div>
         </div>
       </div>
 
       <!-- Charts Row 1 -->
       <div class="grid-2" style="margin-bottom: 1.5rem;">
         <div class="card">
-          <h3 style="margin-bottom: 0.25rem;">1. Giver vs Recipient Satisfaction Gap</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Comparing giver expectations against actual recipient ratings.</p>
+          <h3 style="margin-bottom: 0.25rem; font-size: 1.15rem;">1. Giver vs Recipient Satisfaction Gap</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Comparing giver expectations against actual recipient ratings.</p>
           <div class="chart-box">
             <canvas id="chart-gap"></canvas>
           </div>
-          <div id="analytics-gap-table">Loading...</div>
+          <div id="analytics-gap-table"></div>
         </div>
 
         <div class="card">
-          <h3 style="margin-bottom: 0.25rem;">2. Budget Bucket Satisfaction</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Volume & average recipient ratings across price points.</p>
+          <h3 style="margin-bottom: 0.25rem; font-size: 1.15rem;">2. Budget Bucket Satisfaction</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Volume & average recipient ratings across price points.</p>
           <div class="chart-box">
             <canvas id="chart-budget"></canvas>
           </div>
-          <div id="analytics-budget-table">Loading...</div>
+          <div id="analytics-budget-table"></div>
         </div>
       </div>
 
       <!-- Charts Row 2 -->
       <div class="grid-2" style="margin-bottom: 1.5rem;">
         <div class="card">
-          <h3 style="margin-bottom: 0.25rem;">3. Reliable vs Polarizing Gifts</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Performance classification distribution across catalog.</p>
+          <h3 style="margin-bottom: 0.25rem; font-size: 1.15rem;">3. Reliable vs Polarizing Gifts</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Performance classification distribution across catalog.</p>
           <div class="chart-box">
             <canvas id="chart-reliable"></canvas>
           </div>
-          <div id="analytics-reliable-table">Loading...</div>
+          <div id="analytics-reliable-table"></div>
         </div>
 
         <div class="card">
-          <h3 style="margin-bottom: 0.25rem;">4. Top Failure Reasons</h3>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">Most common failure reason occurrences in catalog.</p>
+          <h3 style="margin-bottom: 0.25rem; font-size: 1.15rem;">4. Top Failure Reasons</h3>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Most common failure reason occurrences in catalog.</p>
           <div class="chart-box">
             <canvas id="chart-failure"></canvas>
           </div>
-          <div id="analytics-failure-table">Loading...</div>
+          <div id="analytics-failure-table"></div>
         </div>
       </div>
     </section>
 
     <!-- TAB 3: GIFT CATALOG -->
     <section id="catalog" class="tab-content">
-      <h2 style="margin-bottom: 0.5rem;">🎁 Gift Catalog Explorer</h2>
-      <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Browse available gifts in the GiftWise intelligence database.</p>
+      <div class="section-header">
+        <h1 class="section-title">
+          <span>🎁</span> Gift Catalog Explorer
+        </h1>
+        <p class="section-desc">
+          Browse items in the GiftWise intelligence database with live filtering, price ranges, and historical performance insights.
+        </p>
+      </div>
+
+      <!-- Catalog Filter Controls -->
+      <div class="catalog-controls">
+        <div id="category-pills" class="category-pills">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="catalog-search" placeholder="Search gifts..." oninput="filterCatalog()">
+        </div>
+      </div>
+
+      <!-- Catalog Grid -->
       <div id="catalog-grid" class="grid-3"></div>
     </section>
 
     <!-- TAB 4: LOG EXPERIENCE -->
     <section id="log-experience" class="tab-content">
-      <div class="card" style="max-width: 700px; margin: 0 auto;">
-        <h2 style="margin-bottom: 0.5rem;">📝 Log a Gifting Experience</h2>
-        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Contribute real gifting outcome data to train the intelligence engine.</p>
-        
-        <form id="experience-form" onsubmit="submitExperience(event)">
-          <div class="form-group">
-            <label for="exp-gift">Select Gift</label>
-            <select id="exp-gift" required></select>
-          </div>
+      <div class="section-header" style="text-align: center; max-width: 600px; margin: 0 auto 2rem auto;">
+        <h1 class="section-title" style="justify-content: center;">
+          <span>📝</span> Log a Gifting Experience
+        </h1>
+        <p class="section-desc">
+          Contribute real gifting outcome data to train and refine the Bayesian intelligence engine.
+        </p>
+      </div>
 
-          <div class="grid-2">
+      <div class="grid-2" style="max-width: 1050px; margin: 0 auto;">
+        <div class="card">
+          <form id="experience-form" onsubmit="submitExperience(event)">
             <div class="form-group">
-              <label for="exp-occasion">Occasion</label>
-              <select id="exp-occasion" required></select>
+              <label for="exp-gift">Select Gift</label>
+              <select id="exp-gift" required onchange="updateExperiencePreview()"></select>
             </div>
+
+            <div class="grid-2">
+              <div class="form-group">
+                <label for="exp-occasion">Occasion</label>
+                <select id="exp-occasion" required onchange="updateExperiencePreview()"></select>
+              </div>
+              <div class="form-group">
+                <label for="exp-relationship">Relationship</label>
+                <select id="exp-relationship" required onchange="updateExperiencePreview()"></select>
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="exp-relationship">Relationship</label>
-              <select id="exp-relationship" required></select>
+              <label for="exp-budget">Actual Spent ($)</label>
+              <input type="number" id="exp-budget" value="45" min="0" required oninput="updateExperiencePreview()">
+            </div>
+
+            <!-- Rating Sliders with Dynamic Emojis -->
+            <div class="grid-2">
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <label style="margin: 0;">Giver Rating</label>
+                  <span id="giver-emoji" style="font-size: 1.2rem;">😊</span>
+                </div>
+                <div class="rating-container">
+                  <input type="range" id="exp-giver-rating" min="1" max="10" value="8" style="flex:1;" oninput="updateRatingsDisplay()">
+                  <span id="giver-val-display" class="rating-val-display">8/10</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <label style="margin: 0;">Recipient Rating</label>
+                  <span id="recipient-emoji" style="font-size: 1.2rem;">🤩</span>
+                </div>
+                <div class="rating-container">
+                  <input type="range" id="exp-recipient-rating" min="1" max="10" value="9" style="flex:1;" oninput="updateRatingsDisplay()">
+                  <span id="recipient-val-display" class="rating-val-display">9/10</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="exp-review">Review / Notes</label>
+              <textarea id="exp-review" rows="3" placeholder="Describe the recipient's reaction or why it worked/failed..." oninput="updateExperiencePreview()"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+              <span>🚀 Submit Gifting Experience</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Live Preview Card -->
+        <div>
+          <div class="card" style="position: sticky; top: 6rem; background: rgba(18, 26, 43, 0.9); border-color: var(--border-glow);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+              <span class="badge badge-purple">LIVE PREVIEW</span>
+              <span id="preview-satisfaction-gap" class="badge badge-emerald">Gap: +1.0</span>
+            </div>
+
+            <h3 id="preview-gift-title" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Selected Gift</h3>
+            <p id="preview-context" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">Occasion & Relationship</p>
+
+            <div style="background: rgba(9, 13, 22, 0.6); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
+                <span style="color: var(--text-muted);">Giver Rating:</span>
+                <span id="preview-giver-score" style="font-weight: 700; color: #fff;">8 / 10</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
+                <span style="color: var(--text-muted);">Recipient Rating:</span>
+                <span id="preview-recipient-score" style="font-weight: 700; color: var(--accent-emerald);">9 / 10</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                <span style="color: var(--text-muted);">Actual Cost:</span>
+                <span id="preview-cost" style="font-weight: 700; color: #fff;">$45</span>
+              </div>
+            </div>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;" id="preview-review-text">
+              "Describe how the recipient reacted..."
             </div>
           </div>
-
-          <div class="grid-3">
-            <div class="form-group">
-              <label for="exp-budget">Actual Budget ($)</label>
-              <input type="number" id="exp-budget" value="45" min="0" required>
-            </div>
-            <div class="form-group">
-              <label for="exp-giver-rating">Giver Rating (1-10)</label>
-              <input type="number" id="exp-giver-rating" value="8" min="1" max="10" required>
-            </div>
-            <div class="form-group">
-              <label for="exp-recipient-rating">Recipient Rating (1-10)</label>
-              <input type="number" id="exp-recipient-rating" value="9" min="1" max="10" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="exp-review">Review / Notes</label>
-            <textarea id="exp-review" rows="3" placeholder="Describe how the recipient reacted..."></textarea>
-          </div>
-
-          <button type="submit" class="btn-submit">Submit Experience</button>
-        </form>
+        </div>
       </div>
     </section>
   </main>
 
+  <!-- Modal Component for Gift Details -->
+  <div id="gift-modal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <span id="modal-category" class="badge badge-purple" style="margin-bottom: 0.4rem;">Category</span>
+          <h2 id="modal-title">Gift Title</h2>
+        </div>
+        <button class="modal-close" onclick="closeGiftModal()">&times;</button>
+      </div>
+      <p id="modal-desc" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">Gift description here...</p>
+      
+      <div style="background: rgba(9,13,22,0.6); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted); font-size: 0.88rem;">Price Range:</span>
+          <span id="modal-price" style="font-weight: 700; color: var(--accent-emerald);">$0 - $0</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+          <span style="color: var(--text-muted); font-size: 0.88rem;">Attributes:</span>
+          <span id="modal-attributes"></span>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button class="preset-btn" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;" onclick="closeGiftModal()">Close</button>
+        <button class="btn-submit" style="width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem;" onclick="logThisGift()">Log Experience</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const API_BASE = '/api';
     let lookupsData = null;
+    let catalogGifts = [];
+    let activeCategory = 'All';
     let chartInstances = {};
+    let selectedModalGift = null;
 
-    function switchTab(tabId) {
+    // Toast Utility
+    function showToast(title, message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const iconMap = { success: '✅', error: '❌', info: '💡' };
+      toast.innerHTML = `
+        <span style="font-size: 1.2rem;">${iconMap[type]}</span>
+        <div>
+          <div style="font-weight: 700; font-size: 0.9rem;">${title}</div>
+          <div style="font-size: 0.82rem; color: var(--text-muted);">${message}</div>
+        </div>
+      `;
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    // Tab Switcher
+    function switchTab(tabId, event) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
       
       document.getElementById(tabId).classList.add('active');
-      if (event && event.target) {
-        event.target.classList.add('active');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
       }
 
       if (tabId === 'analytics') loadAnalytics();
       if (tabId === 'catalog') loadCatalog();
+      if (tabId === 'log-experience') updateRatingsDisplay();
     }
 
+    // Budget Label Helper
+    function updateBudgetLabel() {
+      const min = document.getElementById('rec-budget-min').value || 0;
+      const max = document.getElementById('rec-budget-max').value || 0;
+      document.getElementById('budget-range-label').textContent = `$${min} – $${max}`;
+    }
+
+    function setBudget(min, max) {
+      document.getElementById('rec-budget-min').value = min;
+      document.getElementById('rec-budget-max').value = max;
+      updateBudgetLabel();
+    }
+
+    // Load Lookup Data
     async function loadLookups() {
       try {
         const res = await fetch(`${API_BASE}/lookups`);
@@ -516,23 +1258,68 @@
         relSelects.forEach(select => {
           select.innerHTML = lookupsData.relationships.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
         });
+
+        // Render Interest Chips
+        const intContainer = document.getElementById('interests-chips');
+        intContainer.innerHTML = lookupsData.interests.map(i => `
+          <label class="chip-item" onclick="toggleChip(this)">
+            <input type="checkbox" name="interests" value="${i.id}">
+            <span>${i.name}</span>
+          </label>
+        `).join('');
+
+        // Render Personality Chips
+        const persContainer = document.getElementById('personalities-chips');
+        persContainer.innerHTML = lookupsData.personalities.map(p => `
+          <label class="chip-item" onclick="toggleChip(this)">
+            <input type="checkbox" name="personalities" value="${p.id}">
+            <span>${p.name}</span>
+          </label>
+        `).join('');
+
+        loadCatalog();
       } catch (err) {
-        console.error("Error loading lookups:", err);
+        showToast('Error', 'Failed to load system lookup data', 'error');
       }
     }
 
+    function toggleChip(element) {
+      const checkbox = element.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;
+      if (checkbox.checked) {
+        element.classList.add('active');
+      } else {
+        element.classList.remove('active');
+      }
+    }
+
+    // Recommendation Generator
     async function fetchRecommendations(e) {
       e.preventDefault();
       const resultsDiv = document.getElementById('rec-results');
-      resultsDiv.innerHTML = '<p style="color: var(--text-muted);">Generating recommendations via Bayesian engine...</p>';
+      
+      // Skeleton loader
+      resultsDiv.innerHTML = `
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="skeleton" style="height: 20px; width: 40%; margin-bottom: 10px;"></div>
+          <div class="skeleton" style="height: 14px; width: 60%;"></div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><div class="skeleton" style="height: 180px;"></div></div>
+          <div class="card"><div class="skeleton" style="height: 180px;"></div></div>
+        </div>
+      `;
+
+      const selectedInterests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => parseInt(cb.value));
+      const selectedPersonalities = Array.from(document.querySelectorAll('input[name="personalities"]:checked')).map(cb => parseInt(cb.value));
 
       const payload = {
         occasion_id: parseInt(document.getElementById('rec-occasion').value),
         relationship_id: parseInt(document.getElementById('rec-relationship').value),
         budget_min: parseFloat(document.getElementById('rec-budget-min').value),
         budget_max: parseFloat(document.getElementById('rec-budget-max').value),
-        interest_ids: [],
-        personality_ids: []
+        interest_ids: selectedInterests,
+        personality_ids: selectedPersonalities
       };
 
       try {
@@ -543,63 +1330,104 @@
         });
         const data = await res.json();
         renderRecommendations(data);
+        showToast('Recommendations Ready', `Found ${data.total_candidates_found} gift matches`, 'success');
       } catch (err) {
-        resultsDiv.innerHTML = `<p style="color: var(--accent-secondary);">Error fetching recommendations: ${err}</p>`;
+        resultsDiv.innerHTML = `<div class="card"><p style="color: var(--accent-pink);">Error fetching recommendations: ${err}</p></div>`;
+        showToast('Error', 'Failed to fetch AI recommendations', 'error');
       }
     }
 
     function renderRecommendations(data) {
       const container = document.getElementById('rec-results');
       if (!data.recommendations || data.recommendations.length === 0) {
-        container.innerHTML = '<div class="card"><p>No candidates found matching constraints.</p></div>';
+        container.innerHTML = `
+          <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+            <h3>No Gift Candidates Found</h3>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">Try widening your budget range or clearing specific interest filters.</p>
+          </div>
+        `;
         return;
       }
 
-      let html = `<div class="card" style="margin-bottom: 1.5rem;">
-        <h3>AI Recommendation Summary</h3>
-        <p style="color: var(--text-muted); font-size: 0.9rem;">Candidates Evaluated: <strong>${data.total_candidates_found}</strong> | Cold Start Fallback: <strong>${data.cold_start_fallback_applied ? 'Applied' : 'None'}</strong></p>
-      </div><div class="grid-2">`;
+      let html = `
+        <div class="card" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h3 style="font-size: 1.2rem;">AI Recommendation Engine Results</h3>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.2rem;">
+              Candidates Evaluated: <strong>${data.total_candidates_found}</strong> | Cold Start Strategy: <strong>${data.cold_start_fallback_applied ? 'Applied (Relaxed Filters)' : 'Direct Match'}</strong>
+            </p>
+          </div>
+          <span class="badge badge-purple">${data.recommendations.length} Recommended</span>
+        </div>
+        <div class="grid-2">
+      `;
 
       data.recommendations.forEach(rec => {
-        const confBadge = rec.confidence_level === 'High' ? 'badge-green' : (rec.confidence_level === 'Medium' ? 'badge-purple' : 'badge-yellow');
+        const confBadge = rec.confidence_level === 'High' ? 'badge-emerald' : (rec.confidence_level === 'Medium' ? 'badge-purple' : 'badge-amber');
         
         let factorsHtml = '';
         if (rec.contributing_factors && rec.contributing_factors.length > 0) {
-          factorsHtml = `<ul style="font-size: 0.85rem; color: #cbd5e1; margin: 0.5rem 0 0.75rem 1.2rem; padding: 0;">${rec.contributing_factors.map(f => `<li>${f}</li>`).join('')}</ul>`;
+          factorsHtml = `
+            <div style="margin: 0.75rem 0;">
+              <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.3rem;">Match Insights</div>
+              <ul style="font-size: 0.84rem; color: #cbd5e1; padding-left: 1.2rem; line-height: 1.5;">
+                ${rec.contributing_factors.map(f => `<li>${f}</li>`).join('')}
+              </ul>
+            </div>
+          `;
         }
 
+        let attrBadges = '';
+        if (rec.is_personalized) attrBadges += `<span class="badge badge-pink" style="margin-right:0.3rem;">Personalized</span>`;
+        if (rec.is_experience) attrBadges += `<span class="badge badge-cyan" style="margin-right:0.3rem;">Experience</span>`;
+        if (rec.is_handmade) attrBadges += `<span class="badge badge-amber" style="margin-right:0.3rem;">Handmade</span>`;
+
         html += `
-          <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-              <span class="badge ${confBadge}">Confidence: ${rec.confidence_level}</span>
-              <span style="font-weight: 700; color: #c084fc;">Score: ${rec.bayesian_score}</span>
+          <div class="card card-interactive">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+              <div>
+                <span class="badge ${confBadge}" style="margin-bottom: 0.5rem;">Confidence: ${rec.confidence_level}</span>
+                <h3 style="font-size: 1.25rem;">${rec.gift_name}</h3>
+                <span style="color: var(--text-muted); font-size: 0.82rem;">${rec.gift_category || rec.category || ''}</span>
+              </div>
+              <div class="score-badge-circle">
+                <span class="score-num">${rec.bayesian_score}</span>
+                <span class="score-label">Score</span>
+              </div>
             </div>
-            <h3 style="margin-bottom: 0.4rem;">${rec.gift_name}</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">${rec.gift_category || rec.category || ''}</p>
+
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.75rem;">${rec.description || ''}</p>
+            
+            <div style="margin-bottom: 0.75rem;">${attrBadges}</div>
+
             ${factorsHtml}
-            <div style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.5rem; display: flex; justify-content: space-between;">
-              <span>Price: $${rec.typical_price_min} - $${rec.typical_price_max}</span>
-              <span>Sample n=${rec.sample_size_n}</span>
+
+            <div style="font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 0.75rem; margin-top: 0.75rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 700; color: var(--accent-emerald); font-size: 0.95rem;">$${rec.typical_price_min} - $${rec.typical_price_max}</span>
+              <span>Sample size n=${rec.sample_size_n}</span>
             </div>
           </div>
         `;
       });
+
       html += '</div>';
       container.innerHTML = html;
     }
 
-    // Chart.js Dark Mode Configuration Helper
+    // Chart.js Configuration
     const chartDefaults = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { labels: { color: '#94a3b8', font: { family: 'Outfit', size: 12 } } },
         tooltip: {
-          backgroundColor: 'rgba(15, 23, 42, 0.9)',
-          borderColor: 'rgba(255, 255, 255, 0.1)',
+          backgroundColor: 'rgba(9, 13, 22, 0.95)',
+          borderColor: 'rgba(168, 85, 247, 0.3)',
           borderWidth: 1,
-          titleFont: { family: 'Outfit', size: 13 },
-          bodyFont: { family: 'Inter', size: 12 }
+          padding: 12,
+          titleFont: { family: 'Outfit', size: 14, weight: 'bold' },
+          bodyFont: { family: 'Inter', size: 13 }
         }
       },
       scales: {
@@ -609,18 +1437,16 @@
     };
 
     function destroyChart(id) {
-      if (chartInstances[id]) {
-        chartInstances[id].destroy();
-      }
+      if (chartInstances[id]) chartInstances[id].destroy();
     }
 
+    // Load SQL Analytics Data
     async function loadAnalytics() {
       // 1. Satisfaction Gap
       try {
         const res1 = await fetch(`${API_BASE}/analytics/giver-vs-recipient-gap`);
         const gapData = await res1.json();
         
-        // Render Chart 1
         destroyChart('chart-gap');
         const ctx1 = document.getElementById('chart-gap').getContext('2d');
         const sliceGap = gapData.slice(0, 6);
@@ -636,11 +1462,11 @@
           options: chartDefaults
         });
 
-        let html1 = `<table><thead><tr><th>Giver Rating</th><th>Recipient Rating</th><th>Count</th><th>Avg Gap</th></tr></thead><tbody>`;
+        let html1 = `<div class="table-container"><table><thead><tr><th>Giver Rating</th><th>Recipient Rating</th><th>Count</th><th>Avg Gap</th></tr></thead><tbody>`;
         gapData.slice(0, 5).forEach(row => {
-          html1 += `<tr><td>${row.giver_rating}/10</td><td>${row.recipient_rating}/10</td><td>${row.experience_count}</td><td><span class="badge ${row.avg_gap >= 0 ? 'badge-green' : 'badge-pink'}">${row.avg_gap > 0 ? '+' : ''}${row.avg_gap}</span></td></tr>`;
+          html1 += `<tr><td>${row.giver_rating}/10</td><td>${row.recipient_rating}/10</td><td>${row.experience_count}</td><td><span class="badge ${row.avg_gap >= 0 ? 'badge-emerald' : 'badge-pink'}">${row.avg_gap > 0 ? '+' : ''}${row.avg_gap}</span></td></tr>`;
         });
-        html1 += `</tbody></table>`;
+        html1 += `</tbody></table></div>`;
         document.getElementById('analytics-gap-table').innerHTML = html1;
       } catch (e) { console.error(e); }
 
@@ -649,7 +1475,6 @@
         const res2 = await fetch(`${API_BASE}/analytics/rating-by-budget-bucket`);
         const budgetData = await res2.json();
 
-        // Render Chart 2
         destroyChart('chart-budget');
         const ctx2 = document.getElementById('chart-budget').getContext('2d');
         chartInstances['chart-budget'] = new Chart(ctx2, {
@@ -657,18 +1482,18 @@
           data: {
             labels: budgetData.map(b => b.budget_bucket),
             datasets: [
-              { label: 'Avg Recipient Rating', data: budgetData.map(b => b.avg_recipient_rating), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.3 },
+              { label: 'Avg Recipient Rating', data: budgetData.map(b => b.avg_recipient_rating), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.15)', fill: true, tension: 0.3 },
               { label: 'Satisfaction Gap', data: budgetData.map(b => b.avg_satisfaction_gap), borderColor: '#ec4899', tension: 0.3 }
             ]
           },
           options: chartDefaults
         });
 
-        let html2 = `<table><thead><tr><th>Bucket</th><th>Experiences</th><th>Recipient Avg</th><th>Gap</th></tr></thead><tbody>`;
+        let html2 = `<div class="table-container"><table><thead><tr><th>Bucket</th><th>Experiences</th><th>Recipient Avg</th><th>Gap</th></tr></thead><tbody>`;
         budgetData.forEach(row => {
           html2 += `<tr><td>${row.budget_bucket}</td><td>${row.total_experiences}</td><td>${row.avg_recipient_rating}/10</td><td>${row.avg_satisfaction_gap}</td></tr>`;
         });
-        html2 += `</tbody></table>`;
+        html2 += `</tbody></table></div>`;
         document.getElementById('analytics-budget-table').innerHTML = html2;
       } catch (e) { console.error(e); }
 
@@ -677,14 +1502,12 @@
         const res3 = await fetch(`${API_BASE}/analytics/reliable-vs-polarizing`);
         const relData = await res3.json();
 
-        // Group counts for Donut Chart
         const counts = {};
         relData.forEach(item => {
           const cat = item.gift_performance_classification || 'Moderate';
           counts[cat] = (counts[cat] || 0) + 1;
         });
 
-        // Render Chart 3
         destroyChart('chart-reliable');
         const ctx3 = document.getElementById('chart-reliable').getContext('2d');
         chartInstances['chart-reliable'] = new Chart(ctx3, {
@@ -704,11 +1527,11 @@
           }
         });
 
-        let html3 = `<table><thead><tr><th>Gift</th><th>Classification</th><th>Mean</th><th>StdDev</th></tr></thead><tbody>`;
+        let html3 = `<div class="table-container"><table><thead><tr><th>Gift</th><th>Classification</th><th>Mean</th><th>StdDev</th></tr></thead><tbody>`;
         relData.slice(0, 5).forEach(row => {
           html3 += `<tr><td>${row.gift_name}</td><td><span class="badge badge-purple">${row.gift_performance_classification}</span></td><td>${row.mean_recipient_rating}/10</td><td>±${row.rating_stddev}</td></tr>`;
         });
-        html3 += `</tbody></table>`;
+        html3 += `</tbody></table></div>`;
         document.getElementById('analytics-reliable-table').innerHTML = html3;
       } catch (e) { console.error(e); }
 
@@ -718,7 +1541,6 @@
         const failData = await res4.json();
 
         const topFail = failData.slice(0, 6);
-        // Render Chart 4
         destroyChart('chart-failure');
         const ctx4 = document.getElementById('chart-failure').getContext('2d');
         chartInstances['chart-failure'] = new Chart(ctx4, {
@@ -735,43 +1557,177 @@
           options: { ...chartDefaults, indexAxis: 'y' }
         });
 
-        let html4 = `<table><thead><tr><th>Category</th><th>Reason Code</th><th>Count</th></tr></thead><tbody>`;
+        let html4 = `<div class="table-container"><table><thead><tr><th>Category</th><th>Reason Code</th><th>Count</th></tr></thead><tbody>`;
         failData.slice(0, 5).forEach(row => {
-          html4 += `<tr><td>${row.gift_category}</td><td><span class="badge badge-yellow">${row.reason_code}</span></td><td>${row.failure_count}</td></tr>`;
+          html4 += `<tr><td>${row.gift_category}</td><td><span class="badge badge-amber">${row.reason_code}</span></td><td>${row.failure_count}</td></tr>`;
         });
-        html4 += `</tbody></table>`;
+        html4 += `</tbody></table></div>`;
         document.getElementById('analytics-failure-table').innerHTML = html4;
       } catch (e) { console.error(e); }
     }
 
+    // Load & Render Catalog
     async function loadCatalog() {
       const container = document.getElementById('catalog-grid');
-      container.innerHTML = '<p style="color: var(--text-muted);">Loading gifts...</p>';
+      container.innerHTML = '<div class="card"><div class="skeleton" style="height: 150px;"></div></div>'.repeat(6);
+      
       try {
         const res = await fetch(`${API_BASE}/gifts`);
-        const gifts = await res.json();
+        catalogGifts = await res.json();
         
-        // Populate select box for Experience Logging tab
+        // Populate select box in Tab 4
         const expGiftSelect = document.getElementById('exp-gift');
-        expGiftSelect.innerHTML = gifts.map(g => `<option value="${g.id}">${g.name} (${g.category})</option>`).join('');
+        expGiftSelect.innerHTML = catalogGifts.map(g => `<option value="${g.id}">${g.name} (${g.category})</option>`).join('');
 
-        let html = '';
-        gifts.forEach(g => {
-          html += `
-            <div class="card">
-              <span class="badge badge-purple" style="margin-bottom: 0.5rem;">${g.category}</span>
-              <h3 style="margin-bottom: 0.5rem;">${g.name}</h3>
-              <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">${g.description || ''}</p>
-              <div style="font-weight: 600; color: #34d399;">$${g.typical_price_min} - $${g.typical_price_max}</div>
-            </div>
-          `;
-        });
-        container.innerHTML = html;
+        // Build Category Pills
+        const categories = ['All', ...new Set(catalogGifts.map(g => g.category))];
+        const catContainer = document.getElementById('category-pills');
+        catContainer.innerHTML = categories.map(c => `
+          <button class="cat-pill ${c === activeCategory ? 'active' : ''}" onclick="setCategory('${c}')">${c}</button>
+        `).join('');
+
+        renderCatalogCards();
+        updateExperiencePreview();
       } catch (e) {
-        container.innerHTML = `<p style="color: var(--accent-secondary);">Error loading catalog: ${e}</p>`;
+        container.innerHTML = `<div class="card"><p style="color: var(--accent-pink);">Error loading catalog: ${e}</p></div>`;
       }
     }
 
+    function setCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(el => {
+        el.classList.toggle('active', el.textContent === cat);
+      });
+      renderCatalogCards();
+    }
+
+    function filterCatalog() {
+      renderCatalogCards();
+    }
+
+    function renderCatalogCards() {
+      const container = document.getElementById('catalog-grid');
+      const searchQuery = document.getElementById('catalog-search')?.value.toLowerCase() || '';
+
+      const filtered = catalogGifts.filter(g => {
+        const matchCat = activeCategory === 'All' || g.category === activeCategory;
+        const matchSearch = g.name.toLowerCase().includes(searchQuery) || (g.description && g.description.toLowerCase().includes(searchQuery));
+        return matchCat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+            <p style="color: var(--text-muted);">No gifts match your search query.</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(g => {
+        let attrBadges = '';
+        if (g.is_personalized) attrBadges += `<span class="badge badge-pink" style="margin-right:0.3rem;">Personalized</span>`;
+        if (g.is_experience) attrBadges += `<span class="badge badge-cyan" style="margin-right:0.3rem;">Experience</span>`;
+        if (g.is_handmade) attrBadges += `<span class="badge badge-amber" style="margin-right:0.3rem;">Handmade</span>`;
+
+        html += `
+          <div class="card card-interactive" onclick="openGiftModal('${g.id}')">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+              <span class="badge badge-purple">${g.category}</span>
+              <span style="font-weight: 700; color: var(--accent-emerald);">$${g.typical_price_min} - $${g.typical_price_max}</span>
+            </div>
+            <h3 style="margin-bottom: 0.4rem; font-size: 1.15rem;">${g.name}</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem; line-height: 1.4;">${g.description || ''}</p>
+            <div>${attrBadges}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // Modal Control
+    function openGiftModal(giftId) {
+      const gift = catalogGifts.find(g => g.id === giftId);
+      if (!gift) return;
+      
+      selectedModalGift = gift;
+      document.getElementById('modal-title').textContent = gift.name;
+      document.getElementById('modal-category').textContent = gift.category;
+      document.getElementById('modal-desc').textContent = gift.description || 'No description provided.';
+      document.getElementById('modal-price').textContent = `$${gift.typical_price_min} - $${gift.typical_price_max}`;
+      
+      let attrs = [];
+      if (gift.is_personalized) attrs.push('Personalized');
+      if (gift.is_experience) attrs.push('Experience');
+      if (gift.is_handmade) attrs.push('Handmade');
+      document.getElementById('modal-attributes').textContent = attrs.length ? attrs.join(', ') : 'Standard Catalog Item';
+
+      document.getElementById('gift-modal').classList.add('active');
+    }
+
+    function closeGiftModal() {
+      document.getElementById('gift-modal').classList.remove('active');
+    }
+
+    function closeModalOnOverlay(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        closeGiftModal();
+      }
+    }
+
+    function logThisGift() {
+      if (selectedModalGift) {
+        closeGiftModal();
+        switchTab('log-experience');
+        document.getElementById('exp-gift').value = selectedModalGift.id;
+        updateExperiencePreview();
+      }
+    }
+
+    // Rating Sliders & Preview System
+    function updateRatingsDisplay() {
+      const giverVal = document.getElementById('exp-giver-rating').value;
+      const recipientVal = document.getElementById('exp-recipient-rating').value;
+      
+      document.getElementById('giver-val-display').textContent = `${giverVal}/10`;
+      document.getElementById('recipient-val-display').textContent = `${recipientVal}/10`;
+
+      const emojiMap = (v) => v >= 9 ? '🤩' : (v >= 7 ? '😊' : (v >= 5 ? '😐' : '😞'));
+      document.getElementById('giver-emoji').textContent = emojiMap(giverVal);
+      document.getElementById('recipient-emoji').textContent = emojiMap(recipientVal);
+
+      updateExperiencePreview();
+    }
+
+    function updateExperiencePreview() {
+      const giftSelect = document.getElementById('exp-gift');
+      const giftName = giftSelect.options[giftSelect.selectedIndex]?.text || 'Selected Gift';
+      const occSelect = document.getElementById('exp-occasion');
+      const occName = occSelect.options[occSelect.selectedIndex]?.text || 'Occasion';
+      const relSelect = document.getElementById('exp-relationship');
+      const relName = relSelect.options[relSelect.selectedIndex]?.text || 'Relationship';
+
+      const budget = document.getElementById('exp-budget').value || '0';
+      const giverVal = document.getElementById('exp-giver-rating').value || '0';
+      const recipientVal = document.getElementById('exp-recipient-rating').value || '0';
+      const reviewText = document.getElementById('exp-review').value;
+
+      document.getElementById('preview-gift-title').textContent = giftName;
+      document.getElementById('preview-context').textContent = `${occName} • ${relName}`;
+      document.getElementById('preview-giver-score').textContent = `${giverVal} / 10`;
+      document.getElementById('preview-recipient-score').textContent = `${recipientVal} / 10`;
+      document.getElementById('preview-cost').textContent = `$${budget}`;
+
+      const gap = (parseFloat(recipientVal) - parseFloat(giverVal)).toFixed(1);
+      const gapBadge = document.getElementById('preview-satisfaction-gap');
+      gapBadge.textContent = `Gap: ${gap > 0 ? '+' : ''}${gap}`;
+      gapBadge.className = `badge ${gap >= 0 ? 'badge-emerald' : 'badge-pink'}`;
+
+      document.getElementById('preview-review-text').textContent = reviewText.trim() ? `"${reviewText}"` : '"Describe how the recipient reacted..."';
+    }
+
+    // Submit Experience Form
     async function submitExperience(e) {
       e.preventDefault();
       const payload = {
@@ -794,18 +1750,20 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+
         if (res.ok) {
-          alert('✅ Gifting Experience logged successfully!');
+          showToast('Success!', 'Gifting Experience logged into database', 'success');
           document.getElementById('experience-form').reset();
+          updateRatingsDisplay();
         } else {
-          alert('❌ Failed to log experience.');
+          showToast('Error', 'Failed to log experience', 'error');
         }
       } catch (err) {
-        alert(`Error: ${err}`);
+        showToast('Error', `Network error: ${err}`, 'error');
       }
     }
 
-    // Initialize on load
+    // Initialize Page
     loadLookups();
   </script>
 </body>
