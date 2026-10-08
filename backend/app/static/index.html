@@ -16,35 +16,40 @@
 
   <style>
     :root {
-      --bg-dark: #090d16;
-      --bg-card: rgba(18, 26, 43, 0.65);
-      --bg-card-hover: rgba(30, 42, 68, 0.8);
-      --bg-card-solid: #111827;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-glow: rgba(168, 85, 247, 0.35);
+      /* Main background: Soft muted sage beige / olive sand (Sprout design theme) */
+      --bg-dark: #c5ba84;
+      --bg-card: rgba(255, 252, 246, 0.94);
+      --bg-card-hover: #ffffff;
+      --bg-card-solid: #fdfaf3;
       
-      --accent-purple: #a855f7;
-      --accent-indigo: #6366f1;
-      --accent-pink: #ec4899;
-      --accent-emerald: #10b981;
-      --accent-amber: #f59e0b;
-      --accent-cyan: #06b6d4;
+      --border-color: rgba(90, 107, 71, 0.16);
+      --border-glow: rgba(247, 141, 141, 0.6);
       
-      --gradient-primary: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #ec4899 100%);
-      --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-      --gradient-glow: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+      /* Primary Brand & Accent Palette */
+      --accent-pink: #f78d8d;        /* Soft Coral Rose (Main Button & Active Accent) */
+      --accent-coral: #ef7c7c;       /* Slightly deeper rose pink */
+      --accent-purple: #5a6b47;      /* Sage Green (Sprout Primary Brand Text) */
+      --accent-indigo: #4e5d3c;      /* Muted Forest Green */
+      --accent-emerald: #3b6e45;     /* Leaf Green */
+      --accent-amber: #d9822b;       /* Terracotta / Sand */
+      --accent-cyan: #689791;        /* Soft Teal Sage */
+      
+      --gradient-primary: linear-gradient(135deg, #f78d8d 0%, #f69f9f 100%);
+      --gradient-sage: linear-gradient(135deg, #5a6b47 0%, #465536 100%);
+      --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(253, 248, 238, 0.9) 100%);
+      --gradient-glow: radial-gradient(circle at 50% 0%, rgba(247, 141, 141, 0.25) 0%, transparent 70%);
 
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
+      --text-main: #333d29;          /* Deep Olive Brown/Green for contrast & legibility */
+      --text-muted: #626c54;         /* Soft Olive Taupe */
+      --text-dim: #848e77;           /* Earthy Slate */
       
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
+      --radius-sm: 10px;
+      --radius-md: 18px;
+      --radius-lg: 24px;
       --radius-full: 9999px;
       
-      --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      --shadow-glow: 0 0 25px rgba(168, 85, 247, 0.25);
+      --shadow-glass: 0 10px 30px rgba(51, 61, 41, 0.08);
+      --shadow-glow: 0 4px 20px rgba(247, 141, 141, 0.35);
     }
 
     * {
@@ -57,9 +62,9 @@
       font-family: 'Inter', -apple-system, sans-serif;
       background-color: var(--bg-dark);
       background-image: 
-        radial-gradient(at 10% 10%, rgba(168, 85, 247, 0.12) 0px, transparent 40%),
-        radial-gradient(at 90% 90%, rgba(99, 102, 241, 0.12) 0px, transparent 40%),
-        radial-gradient(at 50% 50%, rgba(236, 72, 153, 0.05) 0px, transparent 60%);
+        radial-gradient(at 0% 0%, rgba(253, 226, 226, 0.8) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(255, 248, 235, 0.85) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(236, 242, 224, 0.75) 0px, transparent 60%);
       background-attachment: fixed;
       color: var(--text-main);
       min-height: 100vh;
@@ -72,6 +77,7 @@
       font-family: 'Outfit', sans-serif;
       font-weight: 700;
       letter-spacing: -0.02em;
+      color: var(--accent-purple);
     }
 
     /* Ambient Background Animated Grids */
@@ -83,8 +89,8 @@
       height: 100vh;
       background-size: 40px 40px;
       background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        linear-gradient(to right, rgba(90, 107, 71, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(90, 107, 71, 0.05) 1px, transparent 1px);
       pointer-events: none;
       z-index: 0;
     }
@@ -103,13 +109,13 @@
 
     .toast {
       pointer-events: auto;
-      background: rgba(18, 26, 43, 0.9);
+      background: rgba(255, 252, 246, 0.95);
       backdrop-filter: blur(16px);
       border: 1px solid var(--border-color);
-      border-left: 4px solid var(--accent-purple);
+      border-left: 4px solid var(--accent-pink);
       padding: 1rem 1.25rem;
       border-radius: var(--radius-md);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 10px 30px rgba(51, 61, 41, 0.15);
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -132,7 +138,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(9, 13, 22, 0.75);
+      background: rgba(255, 252, 246, 0.9);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-color);
@@ -140,6 +146,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-shadow: 0 4px 20px rgba(51, 61, 41, 0.05);
     }
 
     .brand {
@@ -152,13 +159,14 @@
     .brand-logo {
       width: 42px;
       height: 42px;
-      background: var(--gradient-primary);
-      border-radius: 12px;
+      background: var(--accent-purple);
+      color: #ffffff;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.4rem;
-      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+      box-shadow: 0 4px 15px rgba(90, 107, 71, 0.3);
       transition: transform 0.3s ease;
     }
 
@@ -169,9 +177,7 @@
     .brand-title {
       font-size: 1.5rem;
       font-weight: 800;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent-purple);
     }
 
     .brand-subtitle {
@@ -185,8 +191,8 @@
     /* Nav Pills */
     nav {
       display: flex;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 4px;
+      background: rgba(90, 107, 71, 0.08);
+      padding: 5px;
       border-radius: var(--radius-full);
       border: 1px solid var(--border-color);
       gap: 4px;
@@ -196,7 +202,7 @@
       background: transparent;
       border: none;
       color: var(--text-muted);
-      padding: 0.55rem 1.15rem;
+      padding: 0.55rem 1.25rem;
       border-radius: var(--radius-full);
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
@@ -210,13 +216,13 @@
 
     nav button:hover {
       color: var(--text-main);
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.6);
     }
 
     nav button.active {
-      background: var(--gradient-primary);
-      color: #fff;
-      box-shadow: 0 4px 15px rgba(168, 85, 247, 0.35);
+      background: var(--accent-pink);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(247, 141, 141, 0.4);
     }
 
     .header-actions {
@@ -231,9 +237,9 @@
       gap: 0.4rem;
       font-size: 0.78rem;
       font-weight: 600;
-      color: var(--accent-emerald);
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--accent-purple);
+      background: rgba(90, 107, 71, 0.12);
+      border: 1px solid rgba(90, 107, 71, 0.25);
       padding: 0.35rem 0.75rem;
       border-radius: var(--radius-full);
     }
@@ -257,20 +263,20 @@
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid rgba(168, 85, 247, 0.3);
-      color: #c084fc;
-      padding: 0.5rem 1rem;
-      border-radius: var(--radius-md);
+      background: var(--accent-pink);
+      border: none;
+      color: #ffffff;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius-full);
       text-decoration: none;
       font-weight: 600;
       font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(247, 141, 141, 0.3);
       transition: all 0.2s ease;
     }
 
     .docs-btn:hover {
-      background: rgba(168, 85, 247, 0.22);
-      border-color: rgba(168, 85, 247, 0.5);
+      background: var(--accent-coral);
       transform: translateY(-1px);
     }
 
@@ -311,6 +317,7 @@
       align-items: center;
       gap: 0.75rem;
       margin-bottom: 0.4rem;
+      color: var(--accent-purple);
     }
 
     .section-desc {
@@ -340,13 +347,14 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(247, 141, 141, 0.3), transparent);
     }
 
     .card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+      background: var(--bg-card-hover);
+      border-color: rgba(90, 107, 71, 0.25);
+      box-shadow: 0 12px 40px rgba(51, 61, 41, 0.12);
     }
 
     .card-interactive:hover {
@@ -374,7 +382,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-left: 3px solid transparent;
+      border-left: 4px solid transparent;
+      background: var(--bg-card);
     }
 
     .stat-card.purple { border-left-color: var(--accent-purple); }
@@ -392,20 +401,20 @@
     .stat-label {
       color: var(--text-muted);
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
 
     .stat-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.1rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(90, 107, 71, 0.08);
     }
 
     .stat-value {
@@ -414,9 +423,7 @@
       font-family: 'Outfit', sans-serif;
       line-height: 1.1;
       margin-bottom: 0.3rem;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent-purple);
     }
 
     .stat-footer {
@@ -435,34 +442,35 @@
     label {
       display: block;
       font-size: 0.88rem;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-muted);
       margin-bottom: 0.5rem;
     }
 
     input[type="text"], input[type="number"], select, textarea {
       width: 100%;
-      background: rgba(9, 13, 22, 0.7);
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 0.8rem 1.1rem;
       color: var(--text-main);
       font-family: inherit;
       font-size: 0.95rem;
       transition: all 0.2s ease;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: var(--accent-purple);
-      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
-      background: rgba(18, 26, 43, 0.9);
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 0 3.5px rgba(247, 141, 141, 0.25);
+      background: #ffffff;
     }
 
     select {
       cursor: pointer;
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%235a6b47'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: right 1rem center;
       background-size: 1.1rem;
@@ -480,12 +488,12 @@
     .chip-item {
       cursor: pointer;
       user-select: none;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
       border-radius: var(--radius-full);
-      padding: 0.4rem 0.9rem;
+      padding: 0.45rem 1rem;
       font-size: 0.82rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-muted);
       transition: all 0.2s ease;
       display: inline-flex;
@@ -494,9 +502,9 @@
     }
 
     .chip-item:hover {
-      border-color: rgba(255, 255, 255, 0.2);
+      border-color: var(--accent-pink);
       color: var(--text-main);
-      background: rgba(255, 255, 255, 0.08);
+      background: #fff9f9;
     }
 
     .chip-item input[type="checkbox"] {
@@ -504,10 +512,10 @@
     }
 
     .chip-item.active {
-      background: rgba(168, 85, 247, 0.2);
-      border-color: var(--accent-purple);
-      color: #e9d5ff;
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+      background: #fdeaea;
+      border-color: var(--accent-pink);
+      color: #d95353;
+      box-shadow: 0 2px 8px rgba(247, 141, 141, 0.2);
     }
 
     /* Preset Quick Buttons */
@@ -518,11 +526,11 @@
     }
 
     .preset-btn {
-      background: rgba(255, 255, 255, 0.04);
+      background: #ffffff;
       border: 1px solid var(--border-color);
       color: var(--text-muted);
-      padding: 0.3rem 0.75rem;
-      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
@@ -530,19 +538,19 @@
     }
 
     .preset-btn:hover {
-      background: rgba(168, 85, 247, 0.15);
-      border-color: var(--accent-purple);
-      color: var(--text-main);
+      background: #fdeaea;
+      border-color: var(--accent-pink);
+      color: var(--accent-purple);
     }
 
-    /* Primary Gradient Submit Button */
+    /* Primary Accent Button */
     .btn-submit {
       width: 100%;
-      background: var(--gradient-primary);
-      color: white;
+      background: var(--accent-pink);
+      color: #ffffff;
       border: none;
       padding: 0.95rem 1.75rem;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-full);
       font-family: 'Outfit', sans-serif;
       font-size: 1.05rem;
       font-weight: 700;
@@ -551,14 +559,14 @@
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+      box-shadow: 0 4px 18px rgba(247, 141, 141, 0.45);
       transition: all 0.25s ease;
     }
 
     .btn-submit:hover {
+      background: var(--accent-coral);
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(168, 85, 247, 0.55);
-      opacity: 0.95;
+      box-shadow: 0 6px 22px rgba(247, 141, 141, 0.55);
     }
 
     .btn-submit:active {
@@ -570,7 +578,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.3rem;
-      padding: 0.25rem 0.75rem;
+      padding: 0.3rem 0.8rem;
       border-radius: var(--radius-full);
       font-size: 0.75rem;
       font-weight: 700;
@@ -578,11 +586,11 @@
       letter-spacing: 0.04em;
     }
 
-    .badge-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
-    .badge-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-pink { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
-    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-purple { background: #eef3e8; color: #4e5d3c; border: 1px solid rgba(78, 93, 60, 0.25); }
+    .badge-emerald { background: #eaf5eb; color: #2d6b38; border: 1px solid rgba(45, 107, 56, 0.25); }
+    .badge-amber { background: #fdf3e7; color: #b86716; border: 1px solid rgba(184, 103, 22, 0.25); }
+    .badge-pink { background: #fdeaea; color: #d95353; border: 1px solid rgba(217, 83, 83, 0.25); }
+    .badge-cyan { background: #e8f4f3; color: #3c7872; border: 1px solid rgba(60, 120, 114, 0.25); }
 
     /* Tables */
     .table-container {
@@ -591,7 +599,8 @@
       margin-top: 1rem;
       border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
-      background: rgba(9, 13, 22, 0.4);
+      background: #ffffff;
+      box-shadow: 0 4px 15px rgba(51, 61, 41, 0.03);
     }
 
     table {
@@ -607,8 +616,8 @@
     }
 
     th {
-      background: rgba(18, 26, 43, 0.8);
-      color: var(--text-muted);
+      background: #f5efe3;
+      color: var(--accent-purple);
       font-weight: 700;
       text-transform: uppercase;
       font-size: 0.75rem;
@@ -620,7 +629,7 @@
     }
 
     tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
+      background: #faf6ee;
     }
 
     .chart-box {
@@ -637,8 +646,8 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(10px);
+      background: rgba(51, 61, 41, 0.45);
+      backdrop-filter: blur(12px);
       z-index: 1000;
       display: flex;
       align-items: center;
@@ -654,13 +663,13 @@
     }
 
     .modal-content {
-      background: var(--bg-card-solid);
-      border: 1px solid var(--border-glow);
+      background: #fffcf7;
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       width: 90%;
       max-width: 600px;
       padding: 2rem;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      box-shadow: 0 20px 50px rgba(51, 61, 41, 0.2);
       transform: translateY(20px) scale(0.95);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -685,7 +694,7 @@
       padding: 0.2rem;
     }
 
-    .modal-close:hover { color: #fff; }
+    .modal-close:hover { color: var(--text-main); }
 
     /* Catalog Search & Category Filter Pills */
     .catalog-controls {
@@ -704,10 +713,10 @@
     }
 
     .cat-pill {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-color);
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
       color: var(--text-muted);
-      padding: 0.45rem 1rem;
+      padding: 0.45rem 1.1rem;
       border-radius: var(--radius-full);
       font-size: 0.85rem;
       font-weight: 600;
@@ -716,9 +725,10 @@
     }
 
     .cat-pill:hover, .cat-pill.active {
-      background: rgba(168, 85, 247, 0.18);
-      border-color: var(--accent-purple);
-      color: var(--text-main);
+      background: var(--accent-pink);
+      border-color: var(--accent-pink);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(247, 141, 141, 0.3);
     }
 
     .search-input-wrapper {
@@ -741,23 +751,23 @@
 
     /* Bayesian Score Progress Circle / Gauge */
     .score-badge-circle {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(168,85,247,0.2) 0%, rgba(99,102,241,0.1) 100%);
-      border: 2px solid var(--accent-purple);
+      background: #fdeaea;
+      border: 2px solid var(--accent-pink);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 15px rgba(168,85,247,0.3);
+      box-shadow: 0 4px 12px rgba(247, 141, 141, 0.25);
     }
 
     .score-num {
       font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: 1.1rem;
-      color: #fff;
+      color: #d95353;
       line-height: 1;
     }
 
@@ -785,7 +795,7 @@
 
     /* Skeleton Loading Shimmer */
     .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+      background: linear-gradient(90deg, rgba(90,107,71,0.06) 25%, rgba(90,107,71,0.14) 50%, rgba(90,107,71,0.06) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
       border-radius: var(--radius-sm);
@@ -1119,19 +1129,19 @@
 
         <!-- Live Preview Card -->
         <div>
-          <div class="card" style="position: sticky; top: 6rem; background: rgba(18, 26, 43, 0.9); border-color: var(--border-glow);">
+          <div class="card" style="position: sticky; top: 6rem; background: var(--bg-card); border-color: var(--border-glow);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
               <span class="badge badge-purple">LIVE PREVIEW</span>
               <span id="preview-satisfaction-gap" class="badge badge-emerald">Gap: +1.0</span>
             </div>
 
-            <h3 id="preview-gift-title" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Selected Gift</h3>
+            <h3 id="preview-gift-title" style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--accent-purple);">Selected Gift</h3>
             <p id="preview-context" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">Occasion & Relationship</p>
 
-            <div style="background: rgba(9, 13, 22, 0.6); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem;">
+            <div style="background: #ffffff; padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem;">
               <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
                 <span style="color: var(--text-muted);">Giver Rating:</span>
-                <span id="preview-giver-score" style="font-weight: 700; color: #fff;">8 / 10</span>
+                <span id="preview-giver-score" style="font-weight: 700; color: var(--text-main);">8 / 10</span>
               </div>
               <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
                 <span style="color: var(--text-muted);">Recipient Rating:</span>
@@ -1139,7 +1149,7 @@
               </div>
               <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
                 <span style="color: var(--text-muted);">Actual Cost:</span>
-                <span id="preview-cost" style="font-weight: 700; color: #fff;">$45</span>
+                <span id="preview-cost" style="font-weight: 700; color: var(--text-main);">$45</span>
               </div>
             </div>
 
@@ -1158,20 +1168,20 @@
       <div class="modal-header">
         <div>
           <span id="modal-category" class="badge badge-purple" style="margin-bottom: 0.4rem;">Category</span>
-          <h2 id="modal-title">Gift Title</h2>
+          <h2 id="modal-title" style="color: var(--accent-purple);">Gift Title</h2>
         </div>
         <button class="modal-close" onclick="closeGiftModal()">&times;</button>
       </div>
       <p id="modal-desc" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">Gift description here...</p>
       
-      <div style="background: rgba(9,13,22,0.6); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+      <div style="background: #ffffff; padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1.25rem;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <span style="color: var(--text-muted); font-size: 0.88rem;">Price Range:</span>
           <span id="modal-price" style="font-weight: 700; color: var(--accent-emerald);">$0 - $0</span>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
           <span style="color: var(--text-muted); font-size: 0.88rem;">Attributes:</span>
-          <span id="modal-attributes"></span>
+          <span id="modal-attributes" style="color: var(--text-main); font-weight: 600;"></span>
         </div>
       </div>
 
@@ -1371,7 +1381,7 @@
           factorsHtml = `
             <div style="margin: 0.75rem 0;">
               <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.3rem;">Match Insights</div>
-              <ul style="font-size: 0.84rem; color: #cbd5e1; padding-left: 1.2rem; line-height: 1.5;">
+              <ul style="font-size: 0.84rem; color: var(--text-main); padding-left: 1.2rem; line-height: 1.5;">
                 ${rec.contributing_factors.map(f => `<li>${f}</li>`).join('')}
               </ul>
             </div>
@@ -1388,7 +1398,7 @@
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
               <div>
                 <span class="badge ${confBadge}" style="margin-bottom: 0.5rem;">Confidence: ${rec.confidence_level}</span>
-                <h3 style="font-size: 1.25rem;">${rec.gift_name}</h3>
+                <h3 style="font-size: 1.25rem; color: var(--accent-purple);">${rec.gift_name}</h3>
                 <span style="color: var(--text-muted); font-size: 0.82rem;">${rec.gift_category || rec.category || ''}</span>
               </div>
               <div class="score-badge-circle">
@@ -1420,19 +1430,21 @@
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color: '#94a3b8', font: { family: 'Outfit', size: 12 } } },
+        legend: { labels: { color: '#626c54', font: { family: 'Outfit', size: 12, weight: 'bold' } } },
         tooltip: {
-          backgroundColor: 'rgba(9, 13, 22, 0.95)',
-          borderColor: 'rgba(168, 85, 247, 0.3)',
+          backgroundColor: '#fffcf7',
+          borderColor: 'rgba(90, 107, 71, 0.2)',
           borderWidth: 1,
           padding: 12,
+          titleColor: '#333d29',
+          bodyColor: '#626c54',
           titleFont: { family: 'Outfit', size: 14, weight: 'bold' },
           bodyFont: { family: 'Inter', size: 13 }
         }
       },
       scales: {
-        x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } },
-        y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#94a3b8', font: { family: 'Outfit' } } }
+        x: { grid: { color: 'rgba(90, 107, 71, 0.08)' }, ticks: { color: '#626c54', font: { family: 'Outfit', weight: '600' } } },
+        y: { grid: { color: 'rgba(90, 107, 71, 0.08)' }, ticks: { color: '#626c54', font: { family: 'Outfit', weight: '600' } } }
       }
     };
 
@@ -1455,8 +1467,8 @@
           data: {
             labels: sliceGap.map(d => `G:${d.giver_rating} / R:${d.recipient_rating}`),
             datasets: [
-              { label: 'Avg Satisfaction Gap', data: sliceGap.map(d => d.avg_gap), backgroundColor: '#a855f7', borderRadius: 6 },
-              { label: 'Count', data: sliceGap.map(d => d.experience_count), backgroundColor: '#38bdf8', borderRadius: 6 }
+              { label: 'Avg Satisfaction Gap', data: sliceGap.map(d => d.avg_gap), backgroundColor: '#f78d8d', borderRadius: 8 },
+              { label: 'Count', data: sliceGap.map(d => d.experience_count), backgroundColor: '#5a6b47', borderRadius: 8 }
             ]
           },
           options: chartDefaults
@@ -1482,8 +1494,8 @@
           data: {
             labels: budgetData.map(b => b.budget_bucket),
             datasets: [
-              { label: 'Avg Recipient Rating', data: budgetData.map(b => b.avg_recipient_rating), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.15)', fill: true, tension: 0.3 },
-              { label: 'Satisfaction Gap', data: budgetData.map(b => b.avg_satisfaction_gap), borderColor: '#ec4899', tension: 0.3 }
+              { label: 'Avg Recipient Rating', data: budgetData.map(b => b.avg_recipient_rating), borderColor: '#5a6b47', backgroundColor: 'rgba(90, 107, 71, 0.15)', fill: true, tension: 0.3 },
+              { label: 'Satisfaction Gap', data: budgetData.map(b => b.avg_satisfaction_gap), borderColor: '#f78d8d', tension: 0.3 }
             ]
           },
           options: chartDefaults
@@ -1516,14 +1528,14 @@
             labels: Object.keys(counts),
             datasets: [{
               data: Object.values(counts),
-              backgroundColor: ['#10b981', '#a855f7', '#f59e0b', '#ec4899', '#38bdf8'],
+              backgroundColor: ['#3b6e45', '#5a6b47', '#d9822b', '#f78d8d', '#689791'],
               borderWidth: 0
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { family: 'Outfit', size: 11 } } } }
+            plugins: { legend: { position: 'bottom', labels: { color: '#626c54', font: { family: 'Outfit', size: 11, weight: 'bold' } } } }
           }
         });
 
@@ -1550,8 +1562,8 @@
             datasets: [{
               label: 'Occurrences',
               data: topFail.map(f => f.failure_count),
-              backgroundColor: '#ec4899',
-              borderRadius: 6
+              backgroundColor: '#f78d8d',
+              borderRadius: 8
             }]
           },
           options: { ...chartDefaults, indexAxis: 'y' }
