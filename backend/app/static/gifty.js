@@ -115,7 +115,7 @@
   class GiftyAssistant {
     constructor() {
       this.isOpen = false;
-      this.currentTab = 'recommendations';
+      this.currentTab = 'welcome';
       this.initUI();
       this.bindEvents();
       this.checkFirstVisit();
@@ -268,40 +268,48 @@
       let actions = customActions;
 
       if (!messageText) {
-        if (this.currentTab === 'recommendations') {
+        if (this.currentTab === 'welcome') {
+          expression = 'happy';
+          messageText = "Hi, I'm Gifty! Welcome to GiftWise. I help you find thoughtful gifts based on real feedback. What would you like to do?";
+          actions = [
+            { label: `🎁 Get Gift Recommendations`, action: () => this.switchToTab('recommendations') },
+            { label: `✍️ Share Gifting Feedback`, action: () => this.switchToTab('log-experience') },
+            { label: `📊 View Analytics`, action: () => this.switchToTab('analytics') },
+            { label: `🛍️ Browse Catalog`, action: () => this.switchToTab('catalog') }
+          ];
+        } else if (this.currentTab === 'recommendations') {
           expression = 'happy';
           messageText = "Looking for a gift? Let's find something they'll love! Pick an occasion or relationship below.";
           actions = [
-            { label: `${getSVGIcon('sparkles')} Find a Gift`, action: () => this.guideToRecs() },
-            { label: `${getSVGIcon('gift')} Birthday Gift Preset`, action: () => this.presetOccasion('Birthday') },
-            { label: `${getSVGIcon('heart')} Gift for Partner`, action: () => this.presetRelationship('Partner') },
-            { label: `${getSVGIcon('sparkles')} Gift for a Friend`, action: () => this.presetRelationship('Friend') },
-            { label: `${getSVGIcon('gift')} Under $50 Budget`, action: () => this.presetBudget(10, 50) }
+            { label: `🎯 Find Gifts`, action: () => this.guideToRecs() },
+            { label: `🎂 Birthday Gift Preset`, action: () => this.presetOccasion('Birthday') },
+            { label: `❤️ Gift for Partner`, action: () => this.presetRelationship('Partner') },
+            { label: `🤝 Gift for a Friend`, action: () => this.presetRelationship('Friend') },
+            { label: `💰 Under $50 Budget`, action: () => this.presetBudget(10, 50) }
           ];
         } else if (this.currentTab === 'analytics') {
           expression = 'thinking';
-          messageText = "Welcome to SQL Analytics Intelligence! Track satisfaction gaps, reliability rankings, and failure analytics.";
+          messageText = "Here's what our data shows about satisfaction rates, price points, and gift performance.";
           actions = [
-            { label: `${getSVGIcon('chart')} View Satisfaction Gap`, action: () => this.scrollToElement('analytics-gap-table') },
-            { label: `${getSVGIcon('sparkles')} Reliable vs Polarizing`, action: () => this.scrollToElement('analytics-reliable-table') },
-            { label: `${getSVGIcon('chart')} Top Failure Reasons`, action: () => this.scrollToElement('analytics-failure-table') },
-            { label: `${getSVGIcon('sparkles')} Generate Gift Match`, action: () => this.switchToTab('recommendations') }
+            { label: `📊 View Satisfaction Gap`, action: () => this.scrollToElement('analytics-gap-table') },
+            { label: `⭐ Reliable Gifts`, action: () => this.scrollToElement('analytics-reliable-table') },
+            { label: `⚠️ Common Gift Pitfalls`, action: () => this.scrollToElement('analytics-failure-table') },
+            { label: `🎁 Find Recommendations`, action: () => this.switchToTab('recommendations') }
           ];
         } else if (this.currentTab === 'catalog') {
           expression = 'curious';
-          messageText = "Browsing catalog items? Click any item card to view price ranges, attributes, or log an outcome!";
+          messageText = "Browse gifts by category or search by keyword to see ratings and prices.";
           actions = [
-            { label: `${getSVGIcon('search')} Search Catalog`, action: () => this.focusCatalogSearch() },
-            { label: `${getSVGIcon('edit')} Log Experience for Gift`, action: () => this.switchToTab('log-experience') },
-            { label: `${getSVGIcon('sparkles')} Find Recommended Gifts`, action: () => this.switchToTab('recommendations') }
+            { label: `🔍 Search Gifts`, action: () => this.focusCatalogSearch() },
+            { label: `✍️ Share Feedback on a Gift`, action: () => this.switchToTab('log-experience') },
+            { label: `🎁 Get Recommendations`, action: () => this.switchToTab('recommendations') }
           ];
         } else if (this.currentTab === 'log-experience') {
           expression = 'celebrating';
-          messageText = "Received a gift recently? Tell us how it went! Every honest review refines our Bayesian intelligence scores.";
+          messageText = "Gave a gift recently? Tell us how it went to help improve future recommendations!";
           actions = [
-            { label: `${getSVGIcon('edit')} Log Gifting Outcome`, action: () => this.scrollToElement('experience-form') },
-            { label: `${getSVGIcon('sparkles')} How Reviews Work`, action: () => this.explainReviews() },
-            { label: `${getSVGIcon('gift')} Browse Catalog`, action: () => this.switchToTab('catalog') }
+            { label: `✍️ Fill Out Feedback`, action: () => this.scrollToElement('experience-form') },
+            { label: `🛍️ Browse Catalog`, action: () => this.switchToTab('catalog') }
           ];
         }
       }
@@ -425,6 +433,18 @@
         "Gifting reviews measure giver expectations vs. actual recipient happiness! When you submit a review, VADER NLP analyzes the sentiment and updates our Bayesian confidence scores.",
         [
           { label: 'Submit a Review Now', action: () => this.scrollToElement('experience-form') },
+          { label: 'View Analytics Dashboard', action: () => this.switchToTab('analytics') }
+        ],
+        'thinking'
+      );
+    }
+
+    explainBayesian() {
+      this.renderConversation(
+        "Standard reviews suffer from small-sample bias (e.g. 1 review of 10/10 vs. 50 reviews of 9.2/10). Our Bayesian engine applies shrinkage towards the global mean with prior weight C=10.0, ensuring high-confidence recommendations you can genuinely trust!",
+        [
+          { label: 'Find Recommended Gifts', action: () => this.switchToTab('recommendations') },
+          { label: 'Log Gifting Experience', action: () => this.switchToTab('log-experience') },
           { label: 'View Analytics Dashboard', action: () => this.switchToTab('analytics') }
         ],
         'thinking'
