@@ -96,6 +96,21 @@
     `;
   }
 
+  /**
+   * Generates inline SVG icons for Gifty action buttons
+   */
+  function getSVGIcon(name) {
+    const icons = {
+      sparkles: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; display:inline-block; vertical-align:-2px;"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/><path d="M5 3v4"/><path d="M19 17v4"/></svg>`,
+      gift: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; display:inline-block; vertical-align:-2px;"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
+      chart: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; display:inline-block; vertical-align:-2px;"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>`,
+      edit: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; display:inline-block; vertical-align:-2px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+      search: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; display:inline-block; vertical-align:-2px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+      heart: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px; display:inline-block; vertical-align:-2px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`
+    };
+    return icons[name] || '';
+  }
+
   // Assistant Component Class
   class GiftyAssistant {
     constructor() {
@@ -128,7 +143,7 @@
       this.introBubble.style.display = 'none';
       this.introBubble.innerHTML = `
         <div class="gifty-intro-text">
-          Hey! I'm <strong>${MASCOT_NAME}</strong> 🎁<br>Need help finding the perfect gift?
+          Hey! I'm <strong>${MASCOT_NAME}</strong><br>Need help finding the perfect gift?
         </div>
         <button class="gifty-intro-close" id="gifty-intro-close-btn" aria-label="Dismiss message">&times;</button>
       `;
@@ -255,38 +270,38 @@
       if (!messageText) {
         if (this.currentTab === 'recommendations') {
           expression = 'happy';
-          messageText = "Looking for a gift? 🎁 Let's find something they'll love! Pick an occasion or relationship below.";
+          messageText = "Looking for a gift? Let's find something they'll love! Pick an occasion or relationship below.";
           actions = [
-            { label: '💡 Find a Gift', action: () => this.guideToRecs() },
-            { label: '🎂 Birthday Gift Preset', action: () => this.presetOccasion('Birthday') },
-            { label: '💖 Gift for Partner', action: () => this.presetRelationship('Partner') },
-            { label: '🤝 Gift for a Friend', action: () => this.presetRelationship('Friend') },
-            { label: '💵 Under $50 Budget', action: () => this.presetBudget(10, 50) }
+            { label: `${getSVGIcon('sparkles')} Find a Gift`, action: () => this.guideToRecs() },
+            { label: `${getSVGIcon('gift')} Birthday Gift Preset`, action: () => this.presetOccasion('Birthday') },
+            { label: `${getSVGIcon('heart')} Gift for Partner`, action: () => this.presetRelationship('Partner') },
+            { label: `${getSVGIcon('sparkles')} Gift for a Friend`, action: () => this.presetRelationship('Friend') },
+            { label: `${getSVGIcon('gift')} Under $50 Budget`, action: () => this.presetBudget(10, 50) }
           ];
         } else if (this.currentTab === 'analytics') {
           expression = 'thinking';
-          messageText = "Welcome to SQL Analytics Intelligence! 📊 Track satisfaction gaps, reliability rankings, and failure analytics.";
+          messageText = "Welcome to SQL Analytics Intelligence! Track satisfaction gaps, reliability rankings, and failure analytics.";
           actions = [
-            { label: '📈 View Satisfaction Gap', action: () => this.scrollToElement('analytics-gap-table') },
-            { label: '🎯 Reliable vs Polarizing', action: () => this.scrollToElement('analytics-reliable-table') },
-            { label: '⚠️ Top Failure Reasons', action: () => this.scrollToElement('analytics-failure-table') },
-            { label: '💡 Generate Gift Match', action: () => this.switchToTab('recommendations') }
+            { label: `${getSVGIcon('chart')} View Satisfaction Gap`, action: () => this.scrollToElement('analytics-gap-table') },
+            { label: `${getSVGIcon('sparkles')} Reliable vs Polarizing`, action: () => this.scrollToElement('analytics-reliable-table') },
+            { label: `${getSVGIcon('chart')} Top Failure Reasons`, action: () => this.scrollToElement('analytics-failure-table') },
+            { label: `${getSVGIcon('sparkles')} Generate Gift Match`, action: () => this.switchToTab('recommendations') }
           ];
         } else if (this.currentTab === 'catalog') {
           expression = 'curious';
-          messageText = "Browsing catalog items? 🎁 Click any item card to view price ranges, attributes, or log an outcome!";
+          messageText = "Browsing catalog items? Click any item card to view price ranges, attributes, or log an outcome!";
           actions = [
-            { label: '🔍 Search Catalog', action: () => this.focusCatalogSearch() },
-            { label: '📝 Log Experience for Gift', action: () => this.switchToTab('log-experience') },
-            { label: '💡 Find Recommended Gifts', action: () => this.switchToTab('recommendations') }
+            { label: `${getSVGIcon('search')} Search Catalog`, action: () => this.focusCatalogSearch() },
+            { label: `${getSVGIcon('edit')} Log Experience for Gift`, action: () => this.switchToTab('log-experience') },
+            { label: `${getSVGIcon('sparkles')} Find Recommended Gifts`, action: () => this.switchToTab('recommendations') }
           ];
         } else if (this.currentTab === 'log-experience') {
           expression = 'celebrating';
-          messageText = "Received a gift recently? Tell us how it went! 💙 Every honest review refines our Bayesian intelligence scores.";
+          messageText = "Received a gift recently? Tell us how it went! Every honest review refines our Bayesian intelligence scores.";
           actions = [
-            { label: '📝 Log Gifting Outcome', action: () => this.scrollToElement('experience-form') },
-            { label: '❓ How Reviews Work', action: () => this.explainReviews() },
-            { label: '🎁 Browse Catalog', action: () => this.switchToTab('catalog') }
+            { label: `${getSVGIcon('edit')} Log Gifting Outcome`, action: () => this.scrollToElement('experience-form') },
+            { label: `${getSVGIcon('sparkles')} How Reviews Work`, action: () => this.explainReviews() },
+            { label: `${getSVGIcon('gift')} Browse Catalog`, action: () => this.switchToTab('catalog') }
           ];
         }
       }
@@ -358,8 +373,8 @@
         }
       }
       this.renderConversation(`Great! I've pre-selected <strong>${occName}</strong> for you. Fill in your budget & click Generate!`, [
-        { label: '🚀 Generate Recommendations', action: () => this.submitRecForm() },
-        { label: '💵 Change Budget', action: () => this.scrollToElement('rec-budget-min') }
+        { label: 'Generate Recommendations', action: () => this.submitRecForm() },
+        { label: 'Change Budget', action: () => this.scrollToElement('rec-budget-min') }
       ], 'celebrating');
     }
 
@@ -375,7 +390,7 @@
         }
       }
       this.renderConversation(`Sweet! I've selected <strong>${relName}</strong>. Choose budget range to discover top Bayesian gifts!`, [
-        { label: '🚀 Generate Recommendations', action: () => this.submitRecForm() }
+        { label: 'Generate Recommendations', action: () => this.submitRecForm() }
       ], 'happy');
     }
 
@@ -385,7 +400,7 @@
         window.setBudget(min, max);
       }
       this.renderConversation(`Budget set to <strong>$${min} - $${max}</strong>! Ready to generate recommendations?`, [
-        { label: '🚀 Generate Recommendations', action: () => this.submitRecForm() }
+        { label: 'Generate Recommendations', action: () => this.submitRecForm() }
       ], 'celebrating');
     }
 
@@ -407,10 +422,10 @@
 
     explainReviews() {
       this.renderConversation(
-        "Gifting reviews measure giver expectations vs. actual recipient happiness! 💙 When you submit a review, VADER NLP analyzes the sentiment and updates our Bayesian confidence scores.",
+        "Gifting reviews measure giver expectations vs. actual recipient happiness! When you submit a review, VADER NLP analyzes the sentiment and updates our Bayesian confidence scores.",
         [
-          { label: '📝 Submit a Review Now', action: () => this.scrollToElement('experience-form') },
-          { label: '📊 View Analytics Dashboard', action: () => this.switchToTab('analytics') }
+          { label: 'Submit a Review Now', action: () => this.scrollToElement('experience-form') },
+          { label: 'View Analytics Dashboard', action: () => this.switchToTab('analytics') }
         ],
         'thinking'
       );
