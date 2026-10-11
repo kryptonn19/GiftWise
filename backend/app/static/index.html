@@ -812,6 +812,245 @@
     .results-container {
       margin-top: 1.75rem;
     }
+
+    /* ==========================================================================
+       CLEAN WELCOME LANDING VIEW & GIFTY
+       ========================================================================== */
+    .welcome-container {
+      max-width: 760px;
+      margin: 2rem auto 2.5rem auto;
+      text-align: center;
+      animation: tabFade 0.3s ease;
+    }
+
+    .welcome-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--accent-purple);
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      max-width: 580px;
+      margin: 0 auto 1.75rem auto;
+    }
+
+    /* Clean Gifty Card */
+    .gifty-clean-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 0.5rem 1.4rem 0.5rem 0.6rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(51, 61, 41, 0.05);
+    }
+
+    .gifty-avatar-clean {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gifty-avatar-clean svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .gifty-clean-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      text-align: left;
+    }
+
+    .gifty-clean-text strong {
+      color: var(--accent-purple);
+    }
+
+    /* 2 Primary Clean Action Cards */
+    .welcome-actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    @media (max-width: 640px) {
+      .welcome-actions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .clean-action-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.75rem 1.5rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(51, 61, 41, 0.04);
+    }
+
+    .clean-action-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(51, 61, 41, 0.1);
+    }
+
+    .clean-action-card.card-recommend:hover {
+      border-color: var(--accent-pink);
+    }
+
+    .clean-action-card.card-experience:hover {
+      border-color: var(--accent-purple);
+    }
+
+    .clean-action-card .card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .clean-action-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+      margin-bottom: 0.35rem;
+    }
+
+    .clean-action-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+
+    .card-action-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .card-recommend .card-action-text {
+      color: #d95353;
+    }
+
+    .card-experience .card-action-text {
+      color: var(--accent-purple);
+    }
+
+    /* Secondary Simple Links */
+    .welcome-secondary-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .clean-sub-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: var(--radius-sm);
+      transition: color 0.2s ease;
+    }
+
+    .clean-sub-btn:hover {
+      color: var(--accent-purple);
+      text-decoration: underline;
+    }
+
+    .nav-separator {
+      color: var(--text-dim);
+      font-size: 0.8rem;
+    }
+
+    /* Detailed Model-Training Feedback Controls */
+    .detailed-feedback-box {
+      background: #ffffff;
+      border: 1.5px solid rgba(90, 107, 71, 0.25);
+      border-left: 4px solid var(--accent-purple);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      margin: 1.25rem 0;
+    }
+
+    .detailed-feedback-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.6rem;
+    }
+
+    .detailed-feedback-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-purple);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .choice-toggle-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .choice-toggle-btn {
+      flex: 1;
+      padding: 0.65rem 1rem;
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .choice-toggle-btn:hover {
+      border-color: var(--accent-pink);
+    }
+
+    .choice-toggle-btn.active.yes {
+      background: #eaf5eb;
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+      box-shadow: 0 2px 8px rgba(59, 110, 69, 0.18);
+    }
+
+    .choice-toggle-btn.active.no {
+      background: #fdeaea;
+      border-color: var(--accent-pink);
+      color: #d95353;
+      box-shadow: 0 2px 8px rgba(247, 141, 141, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -824,59 +1063,94 @@
 
   <!-- Header Navbar -->
   <header>
-    <a href="#" class="brand">
+    <a href="#" class="brand" onclick="switchTab('welcome', event); return false;">
       <div class="brand-logo">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
       </div>
-      <div>
-        <div class="brand-title">GiftWise</div>
-        <div class="brand-subtitle">Bayesian Gifting Engine</div>
-      </div>
+      <div class="brand-title">GiftWise</div>
     </a>
 
     <nav>
-      <button class="active" onclick="switchTab('recommendations', event)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-        AI Finder
-      </button>
-      <button onclick="switchTab('analytics', event)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-        SQL Analytics
-      </button>
-      <button onclick="switchTab('catalog', event)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-        Catalog
-      </button>
-      <button onclick="switchTab('log-experience', event)">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-        Log Experience
-      </button>
+      <button class="active" onclick="switchTab('welcome', event)" id="nav-welcome">Home</button>
+      <button onclick="switchTab('recommendations', event)" id="nav-recommendations">Recommendations</button>
+      <button onclick="switchTab('analytics', event)" id="nav-analytics">Analytics</button>
+      <button onclick="switchTab('catalog', event)" id="nav-catalog">Catalog</button>
+      <button onclick="switchTab('log-experience', event)" id="nav-log-experience">Share Feedback</button>
     </nav>
 
     <div class="header-actions">
-      <div class="status-badge">
-        <div class="status-pulse"></div>
-        <span>Bayesian v1.0 Active</span>
-      </div>
-      <a href="/docs" target="_blank" class="docs-btn">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        <span>API Docs</span>
-      </a>
+      <a href="/docs" target="_blank" class="docs-btn">API Docs</a>
     </div>
   </header>
 
   <!-- Main Content Area -->
   <main>
 
+    <!-- SECTION 0: WELCOME LANDING VIEW & GIFTY INTRO -->
+    <section id="welcome" class="tab-content active">
+      <div class="welcome-container">
+        <h1 class="welcome-title">Thoughtful gifts, made simple</h1>
+        <p class="welcome-desc">
+          Get gift recommendations based on real recipient feedback, or share how your gift went to help others.
+        </p>
+
+        <!-- Gifty Mascot Intro -->
+        <div class="gifty-clean-card">
+          <div class="gifty-avatar-clean">
+            <svg width="44" height="44" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gifty Mascot">
+              <path d="M 12 24 L 14 18 L 20 20 L 14 22 Z" fill="#f78d8d" />
+              <path d="M 85 22 L 88 16 L 94 19 L 88 21 Z" fill="#d9822b" />
+              <path d="M 22,38 C 20,20 30,11 37,14 C 42,16 45,18 50,18 C 55,18 58,16 63,14 C 70,11 80,20 78,38 C 78,48 90,54 90,66 C 90,82 81,91 66,91 C 50,93 50,93 34,91 C 19,91 10,82 10,66 C 10,54 22,48 22,38 Z" fill="#b3e0f2" stroke="#588db2" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round" />
+              <ellipse cx="50" cy="50" rx="17" ry="12.5" fill="#ffffff" />
+              <polygon points="45.5,43.5 54.5,43.5 50,49" fill="#588db2" />
+              <circle cx="38" cy="35" r="4.2" fill="#253443" />
+              <circle cx="62" cy="35" r="4.2" fill="#253443" />
+              <path d="M 46 53 Q 50 57 54 53" stroke="#588db2" stroke-width="2.2" stroke-linecap="round" fill="none" />
+              <ellipse cx="23" cy="81" rx="12" ry="12" fill="#ffffff" stroke="#588db2" stroke-width="4" />
+              <ellipse cx="77" cy="81" rx="12" ry="12" fill="#ffffff" stroke="#588db2" stroke-width="4" />
+            </svg>
+          </div>
+          <div class="gifty-clean-text">
+            <strong>Hi, I'm Gifty!</strong> What would you like to do today?
+          </div>
+        </div>
+
+        <!-- Two Clean Action Cards -->
+        <div class="welcome-actions-grid">
+          <div class="clean-action-card card-recommend" onclick="switchTab('recommendations')">
+            <div>
+              <div class="card-icon">🎁</div>
+              <h3>Get Gift Recommendations</h3>
+              <p>Find thoughtful gifts tailored to your recipient, occasion, and budget.</p>
+            </div>
+            <div class="card-action-text">Get Recommendations &rarr;</div>
+          </div>
+
+          <div class="clean-action-card card-experience" onclick="switchTab('log-experience')">
+            <div>
+              <div class="card-icon">✍️</div>
+              <h3>Share Gifting Feedback</h3>
+              <p>Tell us how a gift worked out to help improve recommendations.</p>
+            </div>
+            <div class="card-action-text">Share Feedback &rarr;</div>
+          </div>
+        </div>
+
+        <!-- Secondary Links -->
+        <div class="welcome-secondary-nav">
+          <button type="button" class="clean-sub-btn" onclick="switchTab('analytics')">View Analytics</button>
+          <span class="nav-separator">•</span>
+          <button type="button" class="clean-sub-btn" onclick="switchTab('catalog')">Browse Catalog</button>
+        </div>
+      </div>
+    </section>
+
     <!-- TAB 1: RECOMMENDATION FINDER -->
-    <section id="recommendations" class="tab-content active">
+    <section id="recommendations" class="tab-content">
       <div class="section-header">
-        <h1 class="section-title">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-          AI Recommendation Engine
-        </h1>
+        <h1 class="section-title">Gift Recommendations</h1>
         <p class="section-desc">
-          Get Bayesian-smoothed gift recommendations calibrated with prior expectations, cold-start fallback handling, and failure reason prediction.
+          Choose your recipient, occasion, and budget to find well-rated gifts.
         </p>
       </div>
 
@@ -930,8 +1204,7 @@
           </div>
 
           <button type="submit" class="btn-submit" style="margin-top: 1rem;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
-            <span>Generate AI Recommendations</span>
+            <span>Get Recommendations</span>
           </button>
         </form>
       </div>
@@ -943,12 +1216,9 @@
     <!-- TAB 2: ANALYTICS DASHBOARD -->
     <section id="analytics" class="tab-content">
       <div class="section-header">
-        <h1 class="section-title">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-          SQL Analytics Intelligence Dashboard
-        </h1>
+        <h1 class="section-title">Analytics Dashboard</h1>
         <p class="section-desc">
-          Real-time interactive visualizations powered by GiftWise SQL Analytics Views: Giver vs Recipient Gap, Budget Bucket Performance, Reliability Classifications, and Failure Analytics.
+          Insights on recipient satisfaction, budget performance, and gifting outcomes.
         </p>
       </div>
 
@@ -1053,12 +1323,9 @@
     <!-- TAB 3: GIFT CATALOG -->
     <section id="catalog" class="tab-content">
       <div class="section-header">
-        <h1 class="section-title">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-          Gift Catalog Explorer
-        </h1>
+        <h1 class="section-title">Gift Catalog</h1>
         <p class="section-desc">
-          Browse items in the GiftWise intelligence database with live filtering, price ranges, and historical performance insights.
+          Browse gifts in the catalog with prices and ratings.
         </p>
       </div>
 
@@ -1069,9 +1336,7 @@
         </div>
 
         <div class="search-input-wrapper">
-          <span class="search-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </span>
+          <span class="search-icon">🔍</span>
           <input type="text" id="catalog-search" placeholder="Search gifts..." oninput="filterCatalog()">
         </div>
       </div>
@@ -1083,16 +1348,13 @@
     <!-- TAB 4: LOG EXPERIENCE -->
     <section id="log-experience" class="tab-content">
       <div class="section-header" style="text-align: center; max-width: 600px; margin: 0 auto 2rem auto;">
-        <h1 class="section-title" style="justify-content: center;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Log a Gifting Experience
-        </h1>
+        <h1 class="section-title" style="justify-content: center;">Share Gifting Feedback</h1>
         <p class="section-desc">
-          Contribute real gifting outcome data to train and refine the Bayesian intelligence engine.
+          Share your gifting experience and recipient response to help improve future recommendations.
         </p>
       </div>
 
-      <div class="grid-2" style="max-width: 1050px; margin: 0 auto;">
+      <div class="grid-2" style="max-width: 1100px; margin: 0 auto;">
         <div class="card">
           <form id="experience-form" onsubmit="submitExperience(event)">
             <div class="form-group">
@@ -1106,13 +1368,13 @@
                 <select id="exp-occasion" required onchange="updateExperiencePreview()"></select>
               </div>
               <div class="form-group">
-                <label for="exp-relationship">Relationship</label>
+                <label for="exp-relationship">Relationship to Recipient</label>
                 <select id="exp-relationship" required onchange="updateExperiencePreview()"></select>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="exp-budget">Actual Spent ($)</label>
+              <label for="exp-budget">Actual Amount Spent ($)</label>
               <input type="number" id="exp-budget" value="45" min="0" required oninput="updateExperiencePreview()">
             </div>
 
@@ -1120,7 +1382,7 @@
             <div class="grid-2">
               <div class="form-group">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                  <label style="margin: 0;">Giver Rating</label>
+                  <label style="margin: 0;">Giver Satisfaction</label>
                   <span id="giver-emoji" style="font-size: 0.82rem; font-weight: 700; color: var(--accent-purple);">Good</span>
                 </div>
                 <div class="rating-container">
@@ -1131,7 +1393,7 @@
 
               <div class="form-group">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-                  <label style="margin: 0;">Recipient Rating</label>
+                  <label style="margin: 0;">Recipient Happiness</label>
                   <span id="recipient-emoji" style="font-size: 0.82rem; font-weight: 700; color: var(--accent-emerald);">Excellent</span>
                 </div>
                 <div class="rating-container">
@@ -1141,14 +1403,97 @@
               </div>
             </div>
 
+            <!-- Quick Recommendation Decision -->
             <div class="form-group">
-              <label for="exp-review">Review / Notes</label>
-              <textarea id="exp-review" rows="3" placeholder="Describe the recipient's reaction or why it worked/failed..." oninput="updateExperiencePreview()"></textarea>
+              <label>Would you recommend this gift for this scenario?</label>
+              <div class="choice-toggle-group">
+                <button type="button" class="choice-toggle-btn active yes" id="btn-rec-yes" onclick="setExpRecommend(true)">
+                  <span>Yes, Definitely</span>
+                </button>
+                <button type="button" class="choice-toggle-btn no" id="btn-rec-no" onclick="setExpRecommend(false)">
+                  <span>No, Would Not</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Detailed Feedback Section -->
+            <div class="detailed-feedback-box">
+              <div class="detailed-feedback-header">
+                <div class="detailed-feedback-title">
+                  <span>Detailed Feedback</span>
+                </div>
+                <span class="badge badge-purple" style="font-size: 0.72rem;">Helps Improve Model</span>
+              </div>
+
+              <!-- Recipient Profile Context -->
+              <div class="form-group">
+                <label for="exp-age-range">Recipient Age Bracket</label>
+                <select id="exp-age-range" onchange="updateExperiencePreview()">
+                  <option value="18-24">18 – 24 years old</option>
+                  <option value="25-34" selected>25 – 34 years old</option>
+                  <option value="35-50">35 – 50 years old</option>
+                  <option value="50+">50+ years old</option>
+                  <option value="<18">Under 18</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Recipient Interests (Select all that apply)</label>
+                <div id="exp-interests-chips" class="chips-grid"></div>
+              </div>
+
+              <div class="form-group">
+                <label>Recipient Personality Traits (Select all that apply)</label>
+                <div id="exp-personalities-chips" class="chips-grid"></div>
+              </div>
+
+              <!-- Emotional Reaction Details for NLP Analysis -->
+              <div class="form-group">
+                <label for="exp-reaction-select">Recipient Emotional Reaction</label>
+                <select id="exp-reaction-select" onchange="updateExperiencePreview()">
+                  <option value="Ecstatic and overjoyed" selected>Ecstatic / Overjoyed (5/5)</option>
+                  <option value="Pleasantly surprised and appreciative">Pleasantly Surprised & Appreciative (4/5)</option>
+                  <option value="Polite smile and moderate interest">Polite Smile / Mild Interest (3/5)</option>
+                  <option value="Neutral and indifferent">Neutral / Indifferent (2/5)</option>
+                  <option value="Disappointed and unused">Disappointed / Left in Box (1/5)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="exp-reaction-text">Specific Reaction Quote or Unboxing Moment</label>
+                <input type="text" id="exp-reaction-text" placeholder="e.g. Their eyes lit up and they wore it right away!" oninput="updateExperiencePreview()">
+              </div>
+
+              <!-- Failure Analysis Factor (Negative Mining) -->
+              <div class="form-group">
+                <label for="exp-failure-reason">Did anything miss the mark? (Failure Analysis)</label>
+                <select id="exp-failure-reason" onchange="handleFailureReasonChange()">
+                  <option value="" selected>None — Gift was an overall success</option>
+                  <option value="ALREADY_OWNED">Already Owned / Duplicate item</option>
+                  <option value="WRONG_SIZE">Wrong Size / Fit Issue</option>
+                  <option value="TOO_GENERIC">Too Generic / Impersonal</option>
+                  <option value="POOR_QUALITY">Poor Quality / Build issue</option>
+                  <option value="NOT_THEIR_STYLE">Not Their Taste or Style</option>
+                  <option value="WRONG_TIMING">Wrong Timing or Inconvenient</option>
+                  <option value="EXPRESSION_OF_DISLIKE">Expressed Dislike</option>
+                  <option value="OTHER">Other Issue</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="exp-failure-text-group" style="display: none;">
+                <label for="exp-failure-text">Failure Details & Notes</label>
+                <input type="text" id="exp-failure-text" placeholder="Explain the drawback so our model can warn future shoppers..." oninput="updateExperiencePreview()">
+              </div>
+            </div>
+
+            <!-- In-Depth Review Context -->
+            <div class="form-group">
+              <label for="exp-review">In-Depth Gifting Review & Context</label>
+              <textarea id="exp-review" rows="3" placeholder="Describe the recipient's reaction, how useful it was, and any takeaways..." oninput="updateExperiencePreview()"></textarea>
             </div>
 
             <button type="submit" class="btn-submit">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              <span>Submit Gifting Experience</span>
+              <span>Submit Feedback</span>
             </button>
           </form>
         </div>
@@ -1157,11 +1502,11 @@
         <div>
           <div class="card" style="position: sticky; top: 6rem; background: var(--bg-card); border-color: var(--border-glow);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
-              <span class="badge badge-purple">LIVE PREVIEW</span>
+              <span class="badge badge-purple">LIVE MODEL INPUT</span>
               <span id="preview-satisfaction-gap" class="badge badge-emerald">Gap: +1.0</span>
             </div>
 
-            <h3 id="preview-gift-title" style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--accent-purple);">Selected Gift</h3>
+            <h3 id="preview-gift-title" style="font-size: 1.25rem; margin-bottom: 0.35rem; color: var(--accent-purple);">Selected Gift</h3>
             <p id="preview-context" style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem;">Occasion & Relationship</p>
 
             <div style="background: #ffffff; padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem;">
@@ -1173,13 +1518,26 @@
                 <span style="color: var(--text-muted);">Recipient Rating:</span>
                 <span id="preview-recipient-score" style="font-weight: 700; color: var(--accent-emerald);">9 / 10</span>
               </div>
-              <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem;">
                 <span style="color: var(--text-muted);">Actual Cost:</span>
                 <span id="preview-cost" style="font-weight: 700; color: var(--text-main);">$45</span>
               </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                <span style="color: var(--text-muted);">Would Recommend:</span>
+                <span id="preview-recommend" class="badge badge-emerald" style="padding: 0.15rem 0.5rem; font-size: 0.75rem;">👍 Yes</span>
+              </div>
             </div>
 
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;" id="preview-review-text">
+            <div style="background: rgba(90, 107, 71, 0.06); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); margin-bottom: 1rem;">
+              <div style="font-size: 0.78rem; font-weight: 700; color: var(--accent-purple); text-transform: uppercase; margin-bottom: 0.35rem;">Recipient Profile Target</div>
+              <div style="font-size: 0.82rem; color: var(--text-main);" id="preview-profile-summary">Age: 25-34 • General</div>
+            </div>
+
+            <div id="preview-failure-tag-box" style="display: none; margin-bottom: 1rem;">
+              <span id="preview-failure-tag" class="badge badge-pink" style="width: 100%; justify-content: center;">Failure Factor: None</span>
+            </div>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-style: italic; border-left: 3px solid var(--accent-pink); padding-left: 0.75rem;" id="preview-review-text">
               "Describe how the recipient reacted..."
             </div>
           </div>
@@ -1258,14 +1616,74 @@
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
       
-      document.getElementById(tabId).classList.add('active');
-      if (event && event.currentTarget) {
+      const target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      const navBtn = document.getElementById(`nav-${tabId}`);
+      if (navBtn) {
+        navBtn.classList.add('active');
+      } else if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       if (tabId === 'analytics') loadAnalytics();
       if (tabId === 'catalog') loadCatalog();
       if (tabId === 'log-experience') updateRatingsDisplay();
+    }
+
+    // Detailed Model Feedback State
+    let selectedExpInterests = new Set();
+    let selectedExpPersonalities = new Set();
+    let expWouldRecommend = true;
+
+    function setExpRecommend(val) {
+      expWouldRecommend = val;
+      const yesBtn = document.getElementById('btn-rec-yes');
+      const noBtn = document.getElementById('btn-rec-no');
+      if (yesBtn && noBtn) {
+        if (val) {
+          yesBtn.classList.add('active');
+          noBtn.classList.remove('active');
+        } else {
+          yesBtn.classList.remove('active');
+          noBtn.classList.add('active');
+        }
+      }
+      updateExperiencePreview();
+    }
+
+    function toggleExpChip(element, type, id) {
+      const checkbox = element.querySelector('input[type="checkbox"]');
+      checkbox.checked = !checkbox.checked;
+      if (checkbox.checked) {
+        element.classList.add('active');
+        if (type === 'interest') selectedExpInterests.add(id);
+        if (type === 'personality') selectedExpPersonalities.add(id);
+      } else {
+        element.classList.remove('active');
+        if (type === 'interest') selectedExpInterests.delete(id);
+        if (type === 'personality') selectedExpPersonalities.delete(id);
+      }
+      updateExperiencePreview();
+    }
+
+    function handleFailureReasonChange() {
+      const select = document.getElementById('exp-failure-reason');
+      const textGroup = document.getElementById('exp-failure-text-group');
+      if (select && textGroup) {
+        if (select.value) {
+          textGroup.style.display = 'block';
+        } else {
+          textGroup.style.display = 'none';
+          const textInput = document.getElementById('exp-failure-text');
+          if (textInput) textInput.value = '';
+        }
+      }
+      updateExperiencePreview();
     }
 
     // Budget Label Helper
@@ -1290,32 +1708,62 @@
         // Populate Occasions
         const occSelects = [document.getElementById('rec-occasion'), document.getElementById('exp-occasion')];
         occSelects.forEach(select => {
-          select.innerHTML = lookupsData.occasions.map(o => `<option value="${o.id}">${o.name}</option>`).join('');
+          if (select) {
+            select.innerHTML = lookupsData.occasions.map(o => `<option value="${o.id}">${o.name}</option>`).join('');
+          }
         });
 
         // Populate Relationships
         const relSelects = [document.getElementById('rec-relationship'), document.getElementById('exp-relationship')];
         relSelects.forEach(select => {
-          select.innerHTML = lookupsData.relationships.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+          if (select) {
+            select.innerHTML = lookupsData.relationships.map(r => `<option value="${r.id}">${r.name}</option>`).join('');
+          }
         });
 
-        // Render Interest Chips
+        // Render Interest Chips for Recommendations
         const intContainer = document.getElementById('interests-chips');
-        intContainer.innerHTML = lookupsData.interests.map(i => `
-          <label class="chip-item" onclick="toggleChip(this)">
-            <input type="checkbox" name="interests" value="${i.id}">
-            <span>${i.name}</span>
-          </label>
-        `).join('');
+        if (intContainer) {
+          intContainer.innerHTML = lookupsData.interests.map(i => `
+            <label class="chip-item" onclick="toggleChip(this)">
+              <input type="checkbox" name="interests" value="${i.id}">
+              <span>${i.name}</span>
+            </label>
+          `).join('');
+        }
 
-        // Render Personality Chips
+        // Render Interest Chips for Detailed Experience Logging
+        const expIntContainer = document.getElementById('exp-interests-chips');
+        if (expIntContainer) {
+          expIntContainer.innerHTML = lookupsData.interests.map(i => `
+            <label class="chip-item" onclick="toggleExpChip(this, 'interest', ${i.id})">
+              <input type="checkbox" name="exp-interests" value="${i.id}">
+              <span>${i.name}</span>
+            </label>
+          `).join('');
+        }
+
+        // Render Personality Chips for Recommendations
         const persContainer = document.getElementById('personalities-chips');
-        persContainer.innerHTML = lookupsData.personalities.map(p => `
-          <label class="chip-item" onclick="toggleChip(this)">
-            <input type="checkbox" name="personalities" value="${p.id}">
-            <span>${p.name}</span>
-          </label>
-        `).join('');
+        if (persContainer) {
+          persContainer.innerHTML = lookupsData.personalities.map(p => `
+            <label class="chip-item" onclick="toggleChip(this)">
+              <input type="checkbox" name="personalities" value="${p.id}">
+              <span>${p.name}</span>
+            </label>
+          `).join('');
+        }
+
+        // Render Personality Chips for Detailed Experience Logging
+        const expPersContainer = document.getElementById('exp-personalities-chips');
+        if (expPersContainer) {
+          expPersContainer.innerHTML = lookupsData.personalities.map(p => `
+            <label class="chip-item" onclick="toggleExpChip(this, 'personality', ${p.id})">
+              <input type="checkbox" name="exp-personalities" value="${p.id}">
+              <span>${p.name}</span>
+            </label>
+          `).join('');
+        }
 
         loadCatalog();
       } catch (err) {
@@ -1744,16 +2192,20 @@
 
     function updateExperiencePreview() {
       const giftSelect = document.getElementById('exp-gift');
-      const giftName = giftSelect.options[giftSelect.selectedIndex]?.text || 'Selected Gift';
+      const giftName = giftSelect?.options[giftSelect.selectedIndex]?.text || 'Selected Gift';
       const occSelect = document.getElementById('exp-occasion');
-      const occName = occSelect.options[occSelect.selectedIndex]?.text || 'Occasion';
+      const occName = occSelect?.options[occSelect.selectedIndex]?.text || 'Occasion';
       const relSelect = document.getElementById('exp-relationship');
-      const relName = relSelect.options[relSelect.selectedIndex]?.text || 'Relationship';
+      const relName = relSelect?.options[relSelect.selectedIndex]?.text || 'Relationship';
 
-      const budget = document.getElementById('exp-budget').value || '0';
-      const giverVal = document.getElementById('exp-giver-rating').value || '0';
-      const recipientVal = document.getElementById('exp-recipient-rating').value || '0';
-      const reviewText = document.getElementById('exp-review').value;
+      const budget = document.getElementById('exp-budget')?.value || '0';
+      const giverVal = document.getElementById('exp-giver-rating')?.value || '0';
+      const recipientVal = document.getElementById('exp-recipient-rating')?.value || '0';
+      const reviewText = document.getElementById('exp-review')?.value || '';
+      const reactionQuote = document.getElementById('exp-reaction-text')?.value || '';
+      const reactionEmotion = document.getElementById('exp-reaction-select')?.value || '';
+      const ageRange = document.getElementById('exp-age-range')?.value || '25-34';
+      const failureReason = document.getElementById('exp-failure-reason')?.value || '';
 
       document.getElementById('preview-gift-title').textContent = giftName;
       document.getElementById('preview-context').textContent = `${occName} • ${relName}`;
@@ -1766,24 +2218,73 @@
       gapBadge.textContent = `Gap: ${gap > 0 ? '+' : ''}${gap}`;
       gapBadge.className = `badge ${gap >= 0 ? 'badge-emerald' : 'badge-pink'}`;
 
-      document.getElementById('preview-review-text').textContent = reviewText.trim() ? `"${reviewText}"` : '"Describe how the recipient reacted..."';
+      const recBadge = document.getElementById('preview-recommend');
+      if (recBadge) {
+        recBadge.textContent = expWouldRecommend ? '👍 Yes' : '👎 No';
+        recBadge.className = `badge ${expWouldRecommend ? 'badge-emerald' : 'badge-pink'}`;
+      }
+
+      // Profile summary in preview card
+      const profileSummaryEl = document.getElementById('preview-profile-summary');
+      if (profileSummaryEl) {
+        const intCount = selectedExpInterests.size;
+        const persCount = selectedExpPersonalities.size;
+        profileSummaryEl.textContent = `Age: ${ageRange} • ${intCount} interest${intCount === 1 ? '' : 's'} • ${persCount} trait${persCount === 1 ? '' : 's'}`;
+      }
+
+      // Failure tag in preview card
+      const failBox = document.getElementById('preview-failure-tag-box');
+      const failTag = document.getElementById('preview-failure-tag');
+      if (failBox && failTag) {
+        if (failureReason) {
+          failBox.style.display = 'block';
+          failTag.textContent = `Flagged: ${failureReason.replace(/_/g, ' ')}`;
+        } else {
+          failBox.style.display = 'none';
+        }
+      }
+
+      // Live quote preview
+      let displayQuote = '';
+      if (reactionQuote.trim()) {
+        displayQuote = `"${reactionQuote.trim()}"`;
+      } else if (reviewText.trim()) {
+        displayQuote = `"${reviewText.trim()}"`;
+      } else {
+        displayQuote = `"${reactionEmotion}"`;
+      }
+      document.getElementById('preview-review-text').textContent = displayQuote;
     }
 
     // Submit Experience Form
     async function submitExperience(e) {
       e.preventDefault();
+      const failureReasonVal = document.getElementById('exp-failure-reason')?.value;
+      const failureTextVal = document.getElementById('exp-failure-text')?.value;
+      const reactionEmotionVal = document.getElementById('exp-reaction-select')?.value || '';
+      const reactionQuoteVal = document.getElementById('exp-reaction-text')?.value || '';
+
+      const reactionFull = reactionQuoteVal ? `${reactionEmotionVal}. "${reactionQuoteVal}"` : reactionEmotionVal;
+
       const payload = {
         gift_id: document.getElementById('exp-gift').value,
         occasion_id: parseInt(document.getElementById('exp-occasion').value),
         relationship_id: parseInt(document.getElementById('exp-relationship').value),
-        recipient_profile: { age_range: "25-34", interest_ids: [], personality_ids: [] },
+        recipient_profile: {
+          age_range: document.getElementById('exp-age-range').value || "25-34",
+          interest_ids: Array.from(selectedExpInterests),
+          personality_ids: Array.from(selectedExpPersonalities)
+        },
         budget_actual: parseFloat(document.getElementById('exp-budget').value),
         giver_rating: parseInt(document.getElementById('exp-giver-rating').value),
         recipient_rating: parseInt(document.getElementById('exp-recipient-rating').value),
-        would_recommend: parseInt(document.getElementById('exp-recipient-rating').value) >= 7,
-        review_text: document.getElementById('exp-review').value,
-        reaction_text: "Submitted via Web Dashboard",
-        failure_reasons: []
+        would_recommend: expWouldRecommend,
+        review_text: document.getElementById('exp-review').value || reactionEmotionVal,
+        reaction_text: reactionFull,
+        failure_reasons: failureReasonVal ? [{
+          reason_code: failureReasonVal,
+          free_text: failureTextVal || null
+        }] : []
       };
 
       try {
@@ -1794,11 +2295,18 @@
         });
 
         if (res.ok) {
-          showToast('Success!', 'Gifting Experience logged into database', 'success');
+          showToast('Feedback Logged!', 'Detailed gifting outcome submitted & analyzed by NLP pipeline', 'success');
           document.getElementById('experience-form').reset();
+          selectedExpInterests.clear();
+          selectedExpPersonalities.clear();
+          document.querySelectorAll('#exp-interests-chips .chip-item').forEach(el => el.classList.remove('active'));
+          document.querySelectorAll('#exp-personalities-chips .chip-item').forEach(el => el.classList.remove('active'));
+          setExpRecommend(true);
+          handleFailureReasonChange();
           updateRatingsDisplay();
         } else {
-          showToast('Error', 'Failed to log experience', 'error');
+          const errData = await res.json().catch(() => ({}));
+          showToast('Error', errData.detail || 'Failed to log experience', 'error');
         }
       } catch (err) {
         showToast('Error', `Network error: ${err}`, 'error');
