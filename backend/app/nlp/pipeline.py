@@ -17,11 +17,13 @@ from backend.app.models.db_models import GiftingExperience, ReviewNLPInsight
 # Initialize VADER Analyzer
 vader_analyzer = SentimentIntensityAnalyzer()
 
-# Load spaCy English model (with fallback)
+# Load spaCy English model (with robust fallback)
 try:
     nlp = spacy.load("en_core_web_sm")
 except Exception:
     nlp = spacy.blank("en")
+    if "sentencizer" not in nlp.pipe_names:
+        nlp.add_pipe("sentencizer")
 
 # Curated Gifting Theme Taxonomy
 THEME_TAXONOMY = {
@@ -61,21 +63,27 @@ def analyze_review_text(review_text: Optional[str], reaction_text: Optional[str]
         if any(kw in lower_text for kw in keywords):
             extracted_themes.add(theme)
 
-    # Extract additional noun phrases from spaCy if available
-    if hasattr(doc, "noun_chunks"):
-        for chunk in doc.noun_chunks:
-            chunk_text = chunk.text.lower().strip()
-            if len(chunk_text) > 3 and chunk_text not in ["they", "it", "this", "that"]:
-                for theme, keywords in THEME_TAXONOMY.items():
-                    if any(kw in chunk_text for kw in keywords):
-                        extracted_themes.add(theme)
+    # Extract additional noun phrases from spaCy if parser is available
+    if "parser" in nlp.pipe_names:
+        try:
+            for chunk in doc.noun_chunks:
+                chunk_text = chunk.text.lower().strip()
+                if len(chunk_text) > 3 and chunk_text not in ["they", "it", "this", "that"]:
+                    for theme, keywords in THEME_TAXONOMY.items():
+                        if any(kw in chunk_text for kw in keywords):
+                            extracted_themes.add(theme)
+        except Exception:
+            pass
 
     # 3. Sentence-level Reason Tagging
     positive_reasons = []
     negative_reasons = []
 
-    # Split by sentence
-    sentences = [sent.text.strip() for sent in doc.sents] if hasattr(doc, "sents") else full_text.split(".")
+    # Split by sentence safely
+    try:
+        sentences = [sent.text.strip() for sent in doc.sents]
+    except Exception:
+        sentences = [s.strip() for s in full_text.split(".") if s.strip()]
     
     for sentence in sentences:
         if not sentence:
