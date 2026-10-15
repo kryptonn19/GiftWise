@@ -121,31 +121,16 @@ backend/tests/test_recommendation_engine.py:
 ======================== 22 passed, 1 warning in 2.25s =========================
 ```
 
-### 🔍 CI/CD Investigation: Why GitHub Actions Reported `FAILED ❌`
-In `HEALTH_STATUS.md`, recent automated daily runs showed:
-`FAILED ❌ | 3 failed, 19 passed, 1 warning`
-
-#### Root Cause Analysis:
-1. In `.github/workflows/daily_commit.yml`:
-   ```yaml
-   - name: Install dependencies
-     run: |
-       python -m pip install --upgrade pip
-       pip install -r requirements.txt
-   ```
-2. `requirements.txt` specifies `spacy>=3.7.4`, but the pre-trained English model `en_core_web_sm` is **not installed** by pip.
-3. In `backend/app/nlp/pipeline.py`:
-   ```python
-   try:
-       nlp = spacy.load("en_core_web_sm")
-   except Exception:
-       nlp = spacy.blank("en")
-   ```
-4. When `en_core_web_sm` is missing, `spacy.blank("en")` is used. However, in spaCy, blank language models do NOT include sentence segmenters or parsers.
-5. In `pipeline.py`:
-   - `[sent.text.strip() for sent in doc.sents]` raises `ValueError: [E030] Sentence boundaries haven't been applied...`
-   - `for chunk in doc.noun_chunks:` raises `ValueError: [E029] Noun chunks require the dependency parse...`
-6. This caused the 3 tests that invoke the NLP pipeline (`test_analyze_review_text`, `test_process_experience_nlp`, and `test_create_experience`) to fail on CI.
+### 🔍 CI/CD Architecture: Standard CI & Security Workflow
+- **Workflow**: `.github/workflows/ci.yml` (`CI & Security Audit`)
+- **Triggers**: Automated on `push` and `pull_request` to `main`, plus manual `workflow_dispatch`.
+- **Steps**:
+  1. Checks out repository.
+  2. Sets up Python 3.12 with pip cache.
+  3. Installs dependencies and downloads `en_core_web_sm` spaCy model.
+  4. Runs dependency integrity check (`python -m pip check`).
+  5. Executes automated test suite (`pytest backend/tests -v`).
+- **No Git Noise**: Clean, standard CI process that does NOT make auto-commits or push artifacts back into Git history.
 
 ---
 
@@ -155,7 +140,7 @@ In `HEALTH_STATUS.md`, recent automated daily runs showed:
 GiftWise/
 ├── .github/
 │   └── workflows/
-│       └── daily_commit.yml          # GitHub Actions cron for daily automated health check
+│       └── ci.yml                    # Automated CI & Security test workflow
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -186,7 +171,6 @@ GiftWise/
 │   │   │   └── index.html            # Main SPA dashboard (Search, Analytics, Catalog, Logger)
 │   │   └── main.py                   # FastAPI initialization, routing & static mount
 │   ├── scripts/
-│   │   ├── daily_health_check.py     # Test runner & HEALTH_STATUS.md updater
 │   │   ├── generate_synthetic_data.py# Synthetic dataset generator (~750 experiences)
 │   │   ├── run_nlp_pipeline.py       # Batch NLP processor for experiences
 │   │   └── seed_scaffold.py          # Master lookup & gift catalog reference seeder
@@ -199,7 +183,6 @@ GiftWise/
 │   ├── analytics_views.sql           # DDL for 7 SQL analytical views
 │   └── schema.sql                    # PostgreSQL master DDL schema
 ├── giftwise.db                       # Active SQLite development database (1 MB)
-├── HEALTH_STATUS.md                  # Automated CI/CD health log
 ├── pytest.ini                        # Pytest configuration & PYTHONPATH resolution
 ├── requirements.txt                  # Python package dependencies
 └── README.md                         # Project documentation & quick start guide
@@ -207,14 +190,9 @@ GiftWise/
 
 ---
 
-## 🎯 Recommended Action Items
+## 🎯 Completed Improvements
 
-| Priority | Area | Recommendation | Effort |
-| :---: | :--- | :--- | :---: |
-| 🔴 **High** | **CI/CD** | Add `python -m spacy download en_core_web_sm` in `.github/workflows/daily_commit.yml` and add a robust sentencizer fallback in `backend/app/nlp/pipeline.py` so CI passes consistently. | 5 mins |
-| 🟡 **Medium** | **Data** | Run `backend/scripts/run_nlp_pipeline.py` to batch populate `review_nlp_insights` for all 751 experiences in `giftwise.db`. | 2 mins |
-| 🟢 **Low** | **Dependencies** | Update test client imports to eliminate `StarletteDeprecationWarning` regarding `httpx` in tests. | 2 mins |
+- ✅ **CI Workflow Streamlined**: Removed scheduled daily auto-commit bot and replaced with industry-standard `CI & Security Audit` workflow.
+- ✅ **spaCy Pipeline Hardened**: Robust fallback with sentencizer ensures 100% test pass rate even if language models are missing.
+- ✅ **Corpus Enriched**: All 751 experiences enriched with sentiment and theme extraction insights in `review_nlp_insights`.
 
----
-
-*Report prepared by Antigravity Assistant.*
