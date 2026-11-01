@@ -14,25 +14,25 @@
 ### Current Overall Health Score: 🟢 95% (Healthy / Production Ready)
 - **Local Test Suite**: **22 passed, 0 failed, 1 warning** (100% pass rate).
 - **Working Tree**: Completely clean; synced with `origin/main`.
-- **Database (`giftwise.db`)**: Populated with 32 catalog gifts, 751 synthetic gifting experiences, and full lookup tables.
+- **Database (`giftwise.db`)**: Populated with 91 catalog gifts, 3,251 synthetic gifting experiences, and full lookup tables.
 - **Frontend Web App**: Operational glassmorphic UI with Chart.js analytics and interactive Gifty SVG companion mascot.
-- **CI/CD Automated Health Check**: Recently failed on GitHub Actions (`3 failed, 19 passed`) due to a missing spaCy model installation step in the Ubuntu runner (detailed below with solution).
+- **CI/CD Pipeline**: Standard GitHub Actions CI (`CI & Security Audit`) running automated tests and dependency integrity checks.
 
 ---
 
 ## 📊 Database & Data Inventory
 
-The local database (`giftwise.db`) is currently initialized with SQLite and populated with realistic data:
+The local database (`giftwise.db`) is initialized with SQLite and populated with realistic data:
 
 | Entity | Count | Notes / Status |
 | :--- | :---: | :--- |
-| **Catalog Gifts (`gifts`)** | `32` | Diversified across Tech, Home, Wellness, Keepsakes, Experiences |
-| **Gifting Experiences (`gifting_experiences`)** | `751` | Synthetic outcome dataset with natural variance and rating distributions |
+| **Catalog Gifts (`gifts`)** | `91` | Diversified across Tech, Home, Kitchen, Wellness, Keepsakes, Experiences, Outdoors, Games |
+| **Gifting Experiences (`gifting_experiences`)** | `3,251` | Persona-aware outcome dataset with natural variance, affinity matching, and failure reasons |
 | **Occasions (`occasions`)** | `12` | Birthday, Anniversary, Graduation, Christmas, Housewarming, etc. |
 | **Relationships (`relationships`)** | `9` | Partner/Spouse, Parent, Sibling, Close Friend, Coworker, etc. |
 | **Interests (`interests`)** | `14` | Tech, Coffee, Outdoors, Gaming, Books, Fitness, Cooking, etc. |
 | **Personalities (`personalities`)** | `10` | Practical, Sentimental, Minimalist, Adventurous, Creative, etc. |
-| **NLP Insights (`review_nlp_insights`)** | `1` | Batch script `run_nlp_pipeline.py` available to process full corpus |
+| **NLP Insights (`review_nlp_insights`)** | `3,251` | 100% extracted sentiment scores, gifting themes, and reason tags |
 
 ---
 
